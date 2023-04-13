@@ -1,6 +1,6 @@
 #' @importFrom VeryLargeIntegers as.vli factors gcd lcmul is.vli phi
 #' @importFrom maybe is_just is_nothing from_just
-#' @importFrom gmp as.bigq numerator denominator
+#' @importFrom gmp as.bigq numerator denominator is.bigq
 NULL
 
 #' @title The primitive n-th root of unity.

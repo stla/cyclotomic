@@ -43,6 +43,21 @@ sqrtRational <- function(rat) {
   prodRatCyc(1L / den, sqrtInteger(as.integer(num * den)))
 }
 
+#' @title Square root as a cyclotomic number
+#' @description Square root of an integer or a rational number as a cyclotomic
+#'   number.
+#'
+#' @param x an integer or a \strong{gmp} rational number (\code{bigq} object)
+#'
+#' @return The square root of \code{x} as a cyclotomic number.
+#' @export
+#'
+#' @examples
+#' cycSqrt(2)
 cycSqrt <- function(x) {
-
+  if(is.bigq(x)) {
+    sqrtRational(x)
+  } else {
+    sqrtInteger(x)
+  }
 }

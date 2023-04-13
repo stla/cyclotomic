@@ -3,11 +3,10 @@ zeroCyc <- function() {
   new("cyclotomic", order = "1", terms = fastmap())
 }
 
-## | check if it is the zero cyclotomic number ####
+## | check if it's the zero cyclotomic number ####
 isZeroCyc <- function(cyc) {
   cyc@terms$size() == 0L
 }
-
 
 ## | sum of two cyclotomic numbers ####
 sumCyc <- function(cyc1, cyc2) {

@@ -18,4 +18,6 @@ Square root of an integer or a rational number as a cyclotomic
 }
 \examples{
 cycSqrt(2)
+phi <- (1 + cycSqrt(5)) / 2 # the golden ratio
+phi^2 - phi # should be 1
 }

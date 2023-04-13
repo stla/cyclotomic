@@ -1,5 +1,18 @@
+## | the zero cyclotomic number ####
+zeroCyc <- function() {
+  new("cyclotomic", order = "1", terms = fastmap())
+}
+
+## | check if it is the zero cyclotomic number ####
+isZeroCyc <- function(cyc) {
+  cyc@terms$size() == 0L
+}
+
+
 ## | sum of two cyclotomic numbers ####
 sumCyc <- function(cyc1, cyc2) {
+  if(isZeroCyc(cyc1)) return(cyc2)
+  if(isZeroCyc(cyc2)) return(cyc1)
   o1    <- as.vli(cyc1@order)
   trms1 <- cyc1@terms
   o2    <- as.vli(cyc2@order)
@@ -59,11 +72,6 @@ powerCyc <- function(cyc, n) {
   }
   # if n < 0:
   powerCyc(invCyc(cyc), -n)
-}
-
-## | the zero cyclotomic number ####
-zeroCyc <- function() {
-  new("cyclotomic", order = "1", terms = fastmap())
 }
 
 ## | product rational and cyclotomic ####

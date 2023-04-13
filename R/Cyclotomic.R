@@ -206,3 +206,4 @@ setMethod(
   signature(e1 = "numeric", e2 = "cyclotomic"),
   numeric_arith_cyclotomic
 )
+

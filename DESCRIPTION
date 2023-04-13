@@ -12,7 +12,7 @@ Description: The cyclotomic numbers are complex numbers that can be
     thought of as the rational numbers extended with the roots of unity. They
     are represented exactly, enabling exact computations. They contain the
     Gaussian rationals (complex numbers with rational real and imaginary
-    part) as well as the square roots of all rational numbers. They also
+    parts) as well as the square roots of all rational numbers. They also
     contain the sine and cosine of all rational multiples of pi. The
     algorithms implemented in this package are taken from the 'Haskell'
     package 'cyclotomic', whose algorithms are adapted from code by Martin
@@ -28,3 +28,11 @@ Imports:
     methods,
     VeryLargeIntegers
 Encoding: UTF-8
+RoxygenNote: 7.2.3
+Collate: 
+    'Cyclotomic.R'
+    'arithmetic.R'
+    'is.R'
+    'maputils.R'
+    'mkCyclotomic.R'
+    'showCyclotomic.R'

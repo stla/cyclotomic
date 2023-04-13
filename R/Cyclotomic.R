@@ -98,3 +98,111 @@ setMethod(
   }
 )
 
+## | arithmetic methods ####
+cyclotomic_arith_cyclotomic <- function(e1, e2) {
+  switch(
+    .Generic,
+    "+" = sumCyc(e1, e2),
+    "-" = sumCyc(e1, -e2),
+    "*" = prodCyc(e1, e2),
+    "/" = prodCyc(e1, invCyc(e2)),
+    stop(gettextf(
+      "Binary operator %s not defined for cyclotomic objects.", dQuote(.Generic)
+    ))
+  )
+}
+
+cyclotomic_arith_gmp <- function(e1, e2) {
+  switch(
+    .Generic,
+    "+" = e1 + as.cyclotomic(e2),
+    "-" = e1 - as.cyclotomic(e2),
+    "*" = e1 * as.cyclotomic(e2),
+    "/" = e1 / as.cyclotomic(e2),
+    stop(gettextf(
+      "Binary operator %s not defined for these two objects.", dQuote(.Generic)
+    ))
+  )
+}
+
+cyclotomic_arith_numeric <- function(e1, e2) {
+  switch(
+    .Generic,
+    "+" = e1 + as.cyclotomic(e2),
+    "-" = e1 - as.cyclotomic(e2),
+    "*" = e1 * as.cyclotomic(e2),
+    "/" = e1 / as.cyclotomic(e2),
+    "^" = powerCyc(e1, e2),
+    stop(gettextf(
+      "Binary operator %s not defined for these two objects.", dQuote(.Generic)
+    ))
+  )
+}
+
+gmp_arith_cyclotomic <- function(e1, e2) {
+  switch(
+    .Generic,
+    "+" = as.cyclotomic(e1) + e2,
+    "-" = as.cyclotomic(e1) - e2,
+    "*" = as.cyclotomic(e1) * e2,
+    "/" = as.cyclotomic(e1) / e2,
+    stop(gettextf(
+      "Binary operator %s not defined for these two objects.", dQuote(.Generic)
+    ))
+  )
+}
+
+numeric_arith_cyclotomic <- function(e1, e2) {
+  switch(
+    .Generic,
+    "+" = as.cyclotomic(e1) + e2,
+    "-" = as.cyclotomic(e1) - e2,
+    "*" = as.cyclotomic(e1) * e2,
+    "/" = as.cyclotomic(e1) / e2,
+    stop(gettextf(
+      "Binary operator %s not defined for these two objects.", dQuote(.Generic)
+    ))
+  )
+}
+
+setMethod(
+  "Arith",
+  signature(e1 = "cyclotomic", e2 = "cyclotomic"),
+  cyclotomic_arith_cyclotomic
+)
+
+setMethod(
+  "Arith",
+  signature(e1 = "cyclotomic", e2 = "bigq"),
+  cyclotomic_arith_gmp
+)
+
+setMethod(
+  "Arith",
+  signature(e1 = "cyclotomic", e2 = "bigz"),
+  cyclotomic_arith_gmp
+)
+
+setMethod(
+  "Arith",
+  signature(e1 = "bigq", e2 = "cyclotomic"),
+  gmp_arith_cyclotomic
+)
+
+setMethod(
+  "Arith",
+  signature(e1 = "bigz", e2 = "cyclotomic"),
+  gmp_arith_cyclotomic
+)
+
+setMethod(
+  "Arith",
+  signature(e1 = "cyclotomic", e2 = "numeric"),
+  cyclotomic_arith_numeric
+)
+
+setMethod(
+  "Arith",
+  signature(e1 = "numeric", e2 = "cyclotomic"),
+  numeric_arith_cyclotomic
+)

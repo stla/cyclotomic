@@ -156,6 +156,8 @@ invCyc <- function(cyc) {
     r <- from_just(maybe_rat)
     prodRatCyc(1L/r, pgc)
   } else {
-    stop("this is a bug")
+    stop("this is a bug!")
   }
 }
+
+################################################################################

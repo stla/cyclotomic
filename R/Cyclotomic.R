@@ -76,3 +76,25 @@ setMethod(
   }
 )
 
+
+#' @name cyclotomic-unary
+#' @title Unary operators for cyclotomic objects
+#' @description Unary operators for cyclotomic objects.
+#' @aliases +,cyclotomic,missing-method -,cyclotomic,missing-method
+#' @param e1 object of class \code{cyclotomic}
+#' @param e2 nothing
+#' @return A \code{cyclotomic} object.
+setMethod(
+  "+",
+  signature(e1 = "cyclotomic", e2 = "missing"),
+  function(e1, e2) e1
+)
+#' @rdname cyclotomic-unary
+setMethod(
+  "-",
+  signature(e1 = "cyclotomic", e2 = "missing"),
+  function(e1, e2) {
+    minusCyc(e1)
+  }
+)
+

@@ -38,3 +38,4 @@ Collate:
     'maputils.R'
     'mkCyclotomic.R'
     'showCyclotomic.R'
+    'sqrt.R'

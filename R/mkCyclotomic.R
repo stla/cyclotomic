@@ -184,8 +184,8 @@ reduceByPrime <- function(p, cyc) { # p: integer; cyc: cyclotomic; output: cyclo
     rat <- as.bigq(from_just(x))
     cfs <- c(cfs, -rat)
   }
-  r <- p <- as.vli(p)
-  nminusp <- n - p
+  r <- as.vli(p)
+  nminusp <- n - r
   while(is_just(x) && r <= nminusp) {
     rat <- as.bigq(from_just(x))
     cfs <- c(cfs, -rat)
@@ -195,7 +195,7 @@ reduceByPrime <- function(p, cyc) { # p: integer; cyc: cyclotomic; output: cyclo
   if(is_nothing(x)) {
     return(cyc)
   }
-  ndivp <- n / p
+  ndivp <- n / as.vli(p)
   trms <- fastmap()
   ii <- as.vli("0")
   i <- 1L

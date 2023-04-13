@@ -1,5 +1,6 @@
-#' @importFrom VeryLargeIntegers as.vli factors gcd lcmul
+#' @importFrom VeryLargeIntegers as.vli factors gcd lcmul is.vli phi
 #' @importFrom maybe is_just is_nothing
+#' @importFrom gmp as.bigq
 NULL
 
 #' @title The primitive n-th root of unity.
@@ -26,9 +27,7 @@ e <- function(n) {
 }
 
 replacements <- function(n, p, r) {
-  if(TRUE || !is.vli(n)) {
-    n <- as.vli(n)
-  }
+  n <- as.vli(n)
   s <- n / as.vli(p)
   r <- as.vli(r)
   rpl1 <- character(0L)
@@ -61,9 +60,7 @@ replace <- function(n, p, r, trms) {
 }
 
 factorise <- function(n) {
-  if(TRUE || !is.vli(n)) {
-    n <- as.vli(n)
-  }
+  n <- as.vli(n)
   if(n == 1L) {
     return(list(primes = character(0L), k = integer(0L)))
   }

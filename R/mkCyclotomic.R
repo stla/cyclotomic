@@ -1,5 +1,5 @@
 #' @importFrom VeryLargeIntegers as.vli factors gcd lcmul is.vli phi
-#' @importFrom maybe is_just is_nothing
+#' @importFrom maybe is_just is_nothing from_just
 #' @importFrom gmp as.bigq
 NULL
 

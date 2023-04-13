@@ -43,7 +43,7 @@ prodCyc <- function(cyc1, cyc2) {
 
 ## | power of a cyclotomic number ####
 powerCyc <- function(cyc, n) {
-  # here check n is integer
+  stopifnot(isInteger(n))
   if(n == 0L) {
     return(fromInteger(1L))
   }

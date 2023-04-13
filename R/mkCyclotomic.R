@@ -18,7 +18,7 @@ e <- function(n) {
   if(n == 1L) {
     trms <- fastmap()
     trms$set("0", as.bigq(1L))
-    new("Cyclotomic", order = "1", terms = trms)
+    new("cyclotomic", order = "1", terms = trms)
   } else {
     trms <- fastmap()
     trms$set("1", as.bigq(1L))
@@ -207,7 +207,7 @@ reduceByPrime <- function(p, cyc) { # p: integer; cyc: cyclotomic; output: cyclo
     i <- i + 1L
   }
   new(
-    "Cyclotomic",
+    "cyclotomic",
     order = as.character(ndivp),
     terms = removeZeros(trms)
   )
@@ -241,7 +241,7 @@ gcdReduce <- function(cyc) {
     }
     neworder <- f(cyc@order)
     newterms <- mapKeys(f, cyc@terms)
-    new("Cyclotomic", order = neworder, terms = newterms)
+    new("cyclotomic", order = neworder, terms = newterms)
   }
 }
 
@@ -299,7 +299,7 @@ tryReduce <- function(cyc) {
 
 cyclotomic <- function(ord, trms) {
   cyc <- new(
-    "Cyclotomic",
+    "cyclotomic",
     order = as.character(ord),
     terms = removeZeros(trms)
   )

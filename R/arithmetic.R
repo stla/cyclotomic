@@ -63,7 +63,7 @@ powerCyc <- function(cyc, n) {
 
 ## | the zero cyclotomic number ####
 zeroCyc <- function() {
-  new("Cyclotomic", order = "1", terms = fastmap())
+  new("cyclotomic", order = "1", terms = fastmap())
 }
 
 ## | product rational and cyclotomic ####
@@ -72,7 +72,7 @@ prodRatCyc <- function(rat, cyc) {
     zeroCyc()
   } else {
     new(
-      "Cyclotomic",
+      "cyclotomic",
       order = cyc@order,
       terms = mapValues(function(x) {rat * x}, cyc@terms)
     )
@@ -91,7 +91,7 @@ fromRational <- function(rat) {
   } else {
     trms <- fastmap()
     trms$set("0", rat)
-    new("Cyclotomic", order = "1", terms = trms)
+    new("cyclotomic", order = "1", terms = trms)
   }
 }
 

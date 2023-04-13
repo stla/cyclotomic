@@ -3,6 +3,7 @@
 export(conjugate)
 export(e)
 export(im)
+exportMethods(as.cyclotomic)
 importFrom(VeryLargeIntegers,as.vli)
 importFrom(VeryLargeIntegers,factors)
 importFrom(VeryLargeIntegers,gcd)

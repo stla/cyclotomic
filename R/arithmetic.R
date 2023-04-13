@@ -41,6 +41,26 @@ prodCyc <- function(cyc1, cyc2) {
   mkCyclotomic(ord, mp)
 }
 
+## | power of a cyclotomic number ####
+powerCyc <- function(cyc, n) {
+  # here check n is integer
+  if(n == 0L) {
+    return(fromInteger(1L))
+  }
+  if(n == 1L) {
+    return(cyc)
+  }
+  if(n > 0L) {
+    out <- cyc
+    for(. in 2L:n) {
+      out <- prodCyc(out, cyc)
+    }
+    return(out)
+  }
+  # if n < 0:
+  powerCyc(invCyc(cyc), -n)
+}
+
 ## | the zero cyclotomic number ####
 zeroCyc <- function() {
   new("Cyclotomic", order = "1", terms = fastmap())
@@ -57,6 +77,11 @@ prodRatCyc <- function(rat, cyc) {
       terms = mapValues(function(x) {rat * x}, cyc@terms)
     )
   }
+}
+
+## | opposite of a cyclotomic number ####
+minusCyc <- function(cyc) {
+  prodRatCyc(as.bigq(-1L), cyc)
 }
 
 ## | rational as cyclotomic ####

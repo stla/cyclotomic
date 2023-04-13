@@ -207,3 +207,19 @@ setMethod(
   numeric_arith_cyclotomic
 )
 
+
+## | equality ####
+setMethod(
+  "Compare",
+  signature(e1 = "cyclotomic", e2 = "cyclotomic"),
+  function(e1, e2) {
+    switch(
+      .Generic,
+      "==" = isZeroCyc(e1 - e2),
+      "!=" = !isZeroCyc(e1 - e2),
+      stop(gettextf(
+        "Comparison operator %s not defined for cyclotomic objects.", dQuote(.Generic)
+      ))
+    )
+  }
+)

@@ -14,6 +14,28 @@ setMethod(
   }
 )
 
+#' @title Convert cyclotomic number to complex number
+#' @description Convert a cyclotomic number to a complex number.
+#'
+#' @param cyc a cyclotomic number
+#'
+#' @return A complex number (generally inexact).
+#' @export
+#'
+#' @examples
+#' asComplex(e(4))
+asComplex <- function(cyc) {
+  n <- as.double(cyc@order)
+  en <- exp(2 * complex(real = 0, imaginary = 1) * pi / n)
+  lst <- cyc@terms$as_list()
+  powers <- as.integer(names(lst))
+  sum(vapply(seq_along(lst), function(i) {
+    asNumeric(lst[[i]]) * en^powers[i]
+  }, FUN.VALUE = complex(1L)))
+}
+
+
+## | coercion to cyclotomic ####
 setGeneric(
   "as.cyclotomic", function(x) {
     NULL

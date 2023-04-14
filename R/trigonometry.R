@@ -8,15 +8,31 @@
 #' @export
 #' @rdname trigonometry
 #'
-#' @details \code{cosDeg}, resp. \code{sinDeg}, returns the cosine, resp. the
-#'   sine, of its argument assumed to be given in degrees.
+#' @details The function \code{cosDeg}, resp. \code{sinDeg}, returns the cosine,
+#'   resp. the sine, of its argument assumed to be given in degrees.
+#'   The function \code{cosRev}, resp. \code{sinRev}, returns the cosine,
+#'   resp. the sine, of its argument assumed to be given in revolutions.
 #'
 #' @examples
 #' cosDeg(60)
 #' cosDeg("2/3")^2 + sinDeg("2/3")^2 == 1
 cosDeg <- function(rat) {
   stopifnot(is.bigq(rat) || isFraction(rat) || isInteger(rat))
-  n <- as.bigq(rat) / 360L
+  cosRev(as.bigq(rat) / 360L)
+}
+
+#' @rdname trigonometry
+#' @export
+sinDeg <- function(rat) {
+  stopifnot(is.bigq(rat) || isFraction(rat) || isInteger(rat))
+  sinRev(as.bigq(rat) / 360L)
+}
+
+#' @rdname trigonometry
+#' @export
+cosRev <- function(rat) {
+  stopifnot(is.bigq(rat) || isFraction(rat) || isInteger(rat))
+  n <- as.bigq(rat)
   num <- abs(as.integer(numerator(n)))
   den <- as.integer(denominator(n))
   a <- zeta(den)^num
@@ -25,9 +41,9 @@ cosDeg <- function(rat) {
 
 #' @rdname trigonometry
 #' @export
-sinDeg <- function(rat) {
+sinRev <- function(rat) {
   stopifnot(is.bigq(rat) || isFraction(rat) || isInteger(rat))
-  n <- as.bigq(rat) / 360L
+  n <- as.bigq(rat)
   num <- abs(as.integer(numerator(n)))
   den <- as.integer(denominator(n))
   a <- zeta(den)^num

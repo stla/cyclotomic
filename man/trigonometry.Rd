@@ -3,11 +3,17 @@
 \name{cosDeg}
 \alias{cosDeg}
 \alias{sinDeg}
+\alias{cosRev}
+\alias{sinRev}
 \title{Cosine and sine of a rational number}
 \usage{
 cosDeg(rat)
 
 sinDeg(rat)
+
+cosRev(rat)
+
+sinRev(rat)
 }
 \arguments{
 \item{rat}{an integer number, a \strong{gmp} rational number, or a
@@ -20,8 +26,10 @@ A cyclotomic number.
 Cosine and sine of a rational number as a cyclotomic number.
 }
 \details{
-\code{cosDeg}, resp. \code{sinDeg}, returns the cosine, resp. the
-  sine, of its argument assumed to be given in degrees.
+The function \code{cosDeg}, resp. \code{sinDeg}, returns the cosine,
+  resp. the sine, of its argument assumed to be given in degrees.
+  The function \code{cosRev}, resp. \code{sinRev}, returns the cosine,
+  resp. the sine, of its argument assumed to be given in revolutions.
 }
 \examples{
 cosDeg(60)

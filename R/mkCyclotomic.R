@@ -4,6 +4,18 @@
 #' @importFrom gmp as.bigq numerator denominator is.bigq asNumeric
 NULL
 
+intpow <- Vectorize(function(p, k) {
+  result <- 1L
+  while(k) {
+    if(bitwAnd(k, 1L)) {
+      result <- result * p
+    }
+    k <- bitwShiftR(k, 1L)
+    p <- p * p
+  }
+  result
+})
+
 #' @title The primitive n-th root of unity.
 #' @description For example, `e(4) = i` is the primitive 4th root of unity,
 #'   and `e(5) = exp(2*pi*i/5)` is the primitive 5th root of unity.
@@ -92,7 +104,7 @@ pqPairs <- function(n) {
   powers <- fctr[["k"]]
   vapply(seq_along(primes), function(i) {
     p <- primes[i]
-    c(p, as.integer(p^powers[i]))
+    c(p, intpow(p, powers[i]))
   }, FUN.VALUE = integer(2L))
 }
 

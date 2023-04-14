@@ -10,12 +10,17 @@ eb <- function(n) {
   Reduce(sumCyc, toadd)
 }
 
-sqrtPositiveInteger <- function(n) { # n is integer
+sqrtPositiveInteger <- function(n) {
+  n <- as.integer(n)
   fctrs <- factorise(n)
   primes <- as.integer(fctrs[["primes"]])
   powers <- fctrs[["k"]]
-  fact <- prod(primes^(powers %/% 2L))
-  nn   <- prod(primes^(powers %% 2L))
+  if(length(primes) != 0L) {
+    fact <- as.integer(prod(intpow(primes, as.integer(powers %/% 2L))))
+    nn   <- as.integer(prod(intpow(primes, powers %% 2L)))
+  } else{
+    fact <- nn <- 1L
+  }
   switch(
     nn %% 4L,
     "1" = fromInteger(fact) * (2L * eb(nn) + 1L),

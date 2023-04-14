@@ -10,10 +10,10 @@ conjugate(cyc)
 \item{cyc}{a cyclotomic number}
 }
 \value{
-A cyclotomic number, the conjugate of \code{cyc}.
+A cyclotomic number, the complex conjugate of \code{cyc}.
 }
 \description{
-Conjugate of a cyclotomic number.
+Complex conjugate of a cyclotomic number.
 }
 \examples{
 conjugate(e(4)) # should be -e(4)

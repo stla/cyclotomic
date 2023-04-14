@@ -7,7 +7,7 @@
 e(n)
 }
 \arguments{
-\item{n}{positive integer}
+\item{n}{a positive integer}
 }
 \value{
 A cyclotomic number.

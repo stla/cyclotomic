@@ -230,7 +230,7 @@ setMethod(
 )
 
 
-## | equality ####
+## | equality of cyclotomic numbers ####
 setMethod(
   "Compare",
   signature(e1 = "cyclotomic", e2 = "cyclotomic"),
@@ -240,7 +240,8 @@ setMethod(
       "==" = isZeroCyc(e1 - e2),
       "!=" = !isZeroCyc(e1 - e2),
       stop(gettextf(
-        "Comparison operator %s not defined for cyclotomic objects.", dQuote(.Generic)
+        "Comparison operator %s not defined for cyclotomic objects.",
+        dQuote(.Generic)
       ))
     )
   }
@@ -270,7 +271,8 @@ setMethod(
       "==" = isZeroCyc(e1 - e2),
       "!=" = !isZeroCyc(e1 - e2),
       stop(gettextf(
-        "Comparison operator %s not defined for cyclotomic objects.", dQuote(.Generic)
+        "Comparison operator %s not defined for cyclotomic objects.",
+        dQuote(.Generic)
       ))
     )
   }

@@ -24,7 +24,6 @@ maybeRational <- function(cyc) {
   }
 }
 
-
 #' @title Is the cyclotomic a rational number?
 #' @description Checks whether a cyclotomic number is a rational number.
 #'

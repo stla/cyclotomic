@@ -48,7 +48,7 @@ sqrtRational <- function(rat) {
 
 #' @title Square root as a cyclotomic number
 #' @description Square root of an integer or a rational number as a cyclotomic
-#'   number.
+#'   number. This is slow.
 #'
 #' @param x an integer, a \strong{gmp} rational number (\code{bigq} object), or
 #'   a fraction given as a string (e.g. \code{"5/3"})

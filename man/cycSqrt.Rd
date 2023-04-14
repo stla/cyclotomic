@@ -15,7 +15,7 @@ The square root of \code{x} as a cyclotomic number.
 }
 \description{
 Square root of an integer or a rational number as a cyclotomic
-  number.
+  number. This is slow.
 }
 \examples{
 cycSqrt(2)

@@ -1,9 +1,9 @@
 #' @title Conjugate cyclotomic number
-#' @description Conjugate of a cyclotomic number.
+#' @description Complex conjugate of a cyclotomic number.
 #'
 #' @param cyc a cyclotomic number
 #'
-#' @return A cyclotomic number, the conjugate of \code{cyc}.
+#' @return A cyclotomic number, the complex conjugate of \code{cyc}.
 #' @export
 #'
 #' @examples

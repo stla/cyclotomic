@@ -41,6 +41,7 @@ Collate:
     'is.R'
     'maputils.R'
     'mkCyclotomic.R'
+    'polar.R'
     'rational.R'
     'showCyclotomic.R'
     'sqrt.R'

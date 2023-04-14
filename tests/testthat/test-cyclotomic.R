@@ -49,4 +49,11 @@ test_that("trigonometry", {
   expect_true(
     cosDeg("2/7")^2 + sinDeg("2/7")^2 == 1
   )
+  z <- polarDeg(1, -30)
+  expect_true(
+    realPart(z) == cosDeg(30)
+  )
+  expect_true(
+    imaginaryPart(z) == sinDeg(-30)
+  )
 })

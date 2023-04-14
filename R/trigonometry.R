@@ -6,6 +6,7 @@
 #'
 #' @return A cyclotomic number.
 #' @export
+#' @name trigonometry
 #' @rdname trigonometry
 #'
 #' @details The function \code{cosDeg}, resp. \code{sinDeg}, returns the cosine,

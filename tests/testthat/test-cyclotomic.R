@@ -4,6 +4,16 @@ test_that("e(45)^5 == e(9)", {
   )
 })
 
+test_that("is Gaussian?", {
+  im <- e(4)
+  a <- as.cyclotomic(5)
+  b <- as.cyclotomic("3/2")
+  z <- a + im * b
+  expect_true(
+    isGaussianRational(z)
+  )
+})
+
 test_that("convert to complex", {
   im <- e(4)
   a <- as.cyclotomic(5)

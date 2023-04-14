@@ -10,7 +10,7 @@ isRational(cyc)
 \item{cyc}{a cyclotomic number}
 }
 \value{
-A Boolean value
+A Boolean value.
 }
 \description{
 Checks whether a cyclotomic number is a rational number.

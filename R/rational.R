@@ -30,11 +30,22 @@ maybeRational <- function(cyc) {
 #'
 #' @param cyc a cyclotomic number
 #'
-#' @return A Boolean value
+#' @return A Boolean value.
 #' @export
 #' @seealso \code{\link{maybeRational}}
 isRational <- function(cyc) {
   cyc@order == 1L
+}
+
+#' @title Is the cyclotomic a Gaussian rational?
+#' @description Checks whether a cyclotomic number is a Gaussian rational number.
+#'
+#' @param cyc a cyclotomic number
+#'
+#' @return A Boolean value.
+#' @export
+isGaussianRational <- function(cyc) {
+  isRational(realPart(cyc)) && isRational(imaginaryPart(cyc))
 }
 
 ## | rational as cyclotomic ####

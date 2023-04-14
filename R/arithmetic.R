@@ -94,36 +94,6 @@ minusCyc <- function(cyc) {
   prodRatCyc(as.bigq(-1L), cyc)
 }
 
-## | rational as cyclotomic ####
-fromRational <- function(rat) {
-  if(rat == 0L) {
-    zeroCyc()
-  } else {
-    trms <- intmap$new()
-    trms$insert(0L, rat)
-    new("cyclotomic", order = 1L, terms = trms)
-  }
-}
-
-## | integer as cyclotomic ####
-fromInteger <- function(n) {
-  fromRational(as.bigq(n))
-}
-
-## | cyclotomic as exact rational number if possible ####
-toRat <- function(cyc) {
-  if(cyc@order == 1L) {
-    trms <- cyc@terms
-    if(trms$size() == 0L) {
-      just(as.bigq(0L))
-    } else {
-      trms$at(0L)
-    }
-  } else {
-    nothing()
-  }
-}
-
 ## helper 1 for multiplicative inverse
 multiplyExponents <- function(j, cyc) { # j is integer
   n <- cyc@order

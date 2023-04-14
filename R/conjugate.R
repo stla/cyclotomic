@@ -47,3 +47,14 @@ realPart <- function(cyc) {
 imaginaryPart <- function(cyc) {
   - as.bigq("1/2") * e(4) * (cyc - conjugate(cyc))
 }
+
+#' @title Is the cyclotomic a real number?
+#' @description Checks whether a cyclotomic number is a real number.
+#'
+#' @param cyc a cyclotomic number
+#'
+#' @return A Boolean value.
+#' @export
+isReal <- function(cyc) {
+  cyc == conjugate(cyc)
+}

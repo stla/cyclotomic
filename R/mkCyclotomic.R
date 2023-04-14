@@ -1,6 +1,6 @@
 #' @importFrom VeryLargeIntegers as.vli factors is.vli phi
 #' @importFrom primes Rgcd
-#' @importFrom maybe is_just is_nothing from_just nothing just
+#' @importFrom maybe is_just is_nothing nothing just
 #' @importFrom gmp as.bigq numerator denominator is.bigq asNumeric
 NULL
 

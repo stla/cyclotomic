@@ -12,7 +12,7 @@ a principal root of the unity. For example `e(4)` is the principal
 fourth root of unity, that is the imaginary unit.
 
 ``` r
-library(cyclotomic2)
+library(cyclotomic)
 im <- e(4)
 im^2
 ## -1
@@ -39,9 +39,9 @@ e(9)
 ```
 
 The set of cyclotomic numbers contains all the square roots of rational
-numbers, and therefore package allows exact calculations on such square
-roots. For example, using float numbers, the following equality does not
-hold true:
+numbers, and therefore the package allows exact calculations on such
+square roots. For example, using float numbers, the following equality
+does not hold true:
 
 ``` r
 sqrt(5/3) == sqrt(5) / sqrt(3)

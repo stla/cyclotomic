@@ -18,7 +18,7 @@ root of the unity. For example `e(4)` is the principal fourth root of unity,
 that is the imaginary unit.
 
 ```{r}
-library(cyclotomic2)
+library(cyclotomic)
 im <- e(4)
 im^2
 ```

@@ -4,6 +4,7 @@
 #' @importFrom gmp as.bigq numerator denominator is.bigq asNumeric
 NULL
 
+## | integer^integer
 intpow <- Vectorize(function(p, k) {
   result <- 1L
   while(k) {
@@ -20,7 +21,7 @@ intpow <- Vectorize(function(p, k) {
 #' @description For example, `e(4) = i` is the primitive 4th root of unity,
 #'   and `e(5) = exp(2*pi*i/5)` is the primitive 5th root of unity.
 #'   In general, `e(n) = exp(2*pi*i/n)`.
-#' @param n positive integer
+#' @param n a positive integer
 #' @return A cyclotomic number.
 #' @export
 #' @examples
@@ -58,17 +59,16 @@ replacements <- function(n, p, r) {
 }
 
 replace <- function(n, p, r, trms) {
-  out <- trms #$copy()
-  if(!out$has_key(r)) {
-    return(out)
+  if(!trms$has_key(r)) {
+    return(trms)
   }
-  minusrat <- -out$get(r)
-  out$erase(r)
+  minusrat <- -trms$get(r)
+  trms$erase(r)
   rpl <- rev(replacements(n, p, r))
   for(k in rpl) {
-    insertWith(`+`, out, k, minusrat)
+    insertWith(`+`, trms, k, minusrat)
   }
-  out
+  trms
 }
 
 factorise <- function(n) {
@@ -76,7 +76,7 @@ factorise <- function(n) {
     return(list(primes = integer(0L), k = integer(0L)))
   }
   fctrs <- factors(as.vli(n), iter = 100L, output = "list")
-  if(is.vli(fctrs)) { # workaround pb si un seul facteur
+  if(is.vli(fctrs)) { # workaround: fctrs is not a list if only one factor
     fctrs <- list(fctrs)
   }
   fcts <- vapply(
@@ -84,8 +84,8 @@ factorise <- function(n) {
   )
   tbl <- table(fcts)
   list(
-    primes = as.integer(names(tbl)),
-    k      = as.integer(c(tbl))
+    "primes" = as.integer(names(tbl)),
+    "k"      = as.integer(c(tbl))
   )
 }
 
@@ -138,7 +138,7 @@ removeExps <- function(n, p, q) {
     }
     return(out)
   }
-  m <- as.integer((q %/% p - 1L) %/% 2L) # Y'AVAIT ERREUR ICI
+  m <- as.integer((q %/% p - 1L) %/% 2L)
   x <- - m
   out <- f(ndivq * x)
   while(x < m) {
@@ -160,29 +160,28 @@ extraneousPowers <- function(n) {
 }
 
 convertToBase <- function(n, trms) {
-  out <- trms #$copy()
   if(n == 1L) {
-    return(out)
+    return(trms)
   }
   epows <- extraneousPowers(n)
   for(i in nrow(epows):1L) {
     pr <- epows[i, ]
-    out <- replace(n, pr[1L], pr[2L], out)
+    trms <- replace(n, pr[1L], pr[2L], trms)
   }
-  out
+  trms
 }
 
 equalReplacements <- function(p, r, cyc) {
-  xx <- vapply(replacements(cyc@order, p, r), function(k) {
+  xs <- vapply(replacements(cyc@order, p, r), function(k) {
     as.character(cyc@terms$get(k, default = as.bigq(0L)))
   }, FUN.VALUE = character(1L))
-  x1 <- xx[1L]
-  for(x in xx[-1L]) {
+  x1 <- xs[1L]
+  for(x in xs[-1L]) {
     if(x != x1) {
       return(NULL)
     }
   }
-  return(x1)
+  x1
 }
 
 reduceByPrime <- function(p, cyc) { # p: integer; cyc: cyclotomic; output: cyclotomic
@@ -195,7 +194,7 @@ reduceByPrime <- function(p, cyc) { # p: integer; cyc: cyclotomic; output: cyclo
     rat <- as.bigq(x)
     cfs <- c(cfs, -rat)
     x <- equalReplacements(p, r, cyc)
-    r <- r + p # Y'AVAIT ERREUR
+    r <- r + p
   }
   if(is.null(x)) {
     return(cyc)
@@ -207,7 +206,7 @@ reduceByPrime <- function(p, cyc) { # p: integer; cyc: cyclotomic; output: cyclo
   l <- length(cfs)
   while(ii < ndivp && i <= l) {
     coef <- cfs[i]
-    if(coef != 0L) trms$insert(ii, coef) # Y'AVAIT ERREUR
+    if(coef != 0L) trms$insert(ii, coef)
     ii <- ii + 1L
     i <- i + 1L
   }
@@ -262,7 +261,7 @@ equalCoefficients <- function(cyc) {
       return(NULL)
     }
   }
-  return(firstelem)
+  firstelem
 }
 
 tryRational <- function(cyc) {

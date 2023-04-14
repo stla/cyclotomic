@@ -23,7 +23,7 @@ setMethod(
 #' @export
 #'
 #' @examples
-#' asComplex(e(4))
+#' asComplex(zeta(4))
 asComplex <- function(cyc) {
   n <- as.double(cyc@order)
   en <- exp(2 * complex(real = 0, imaginary = 1) * pi / n)

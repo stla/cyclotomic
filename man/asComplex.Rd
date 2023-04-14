@@ -16,5 +16,5 @@ A complex number (generally inexact).
 Convert a cyclotomic number to a complex number.
 }
 \examples{
-asComplex(e(4))
+asComplex(zeta(4))
 }

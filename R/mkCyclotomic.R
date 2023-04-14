@@ -290,7 +290,6 @@ cyclotomic <- function(ord, trms) {
 
 mkCyclotomic <- function(ord, trms) {
   cyclotomic(
-    as.integer(ord),
-    convertToBase(as.integer(ord), trms)
+    ord, convertToBase(ord, trms)
   )
 }

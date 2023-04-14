@@ -16,5 +16,5 @@ A cyclotomic number.
 The real part of a cyclotomic number.
 }
 \examples{
-realPart(e(9))
+realPart(zeta(9))
 }

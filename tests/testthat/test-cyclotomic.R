@@ -1,11 +1,11 @@
 test_that("e(45)^5 == e(9)", {
   expect_true(
-    e(45)^5 == e(9)
+    zeta(45)^5 == zeta(9)
   )
 })
 
 test_that("is Gaussian?", {
-  im <- e(4)
+  im <- zeta(4)
   a <- as.cyclotomic(5)
   b <- as.cyclotomic("3/2")
   z <- a + im * b
@@ -15,7 +15,7 @@ test_that("is Gaussian?", {
 })
 
 test_that("convert to complex", {
-  im <- e(4)
+  im <- zeta(4)
   a <- as.cyclotomic(5)
   b <- as.cyclotomic("3/2")
   z <- (a + im * b)^2
@@ -38,8 +38,8 @@ test_that("ratio square roots", {
 })
 
 test_that("decomposition real/imaginary parts", {
-  im <- e(4)
-  z <- e(9)
+  im <- zeta(4)
+  z <- zeta(9)
   expect_true(
     realPart(z) + im * imaginaryPart(z) == z
   )

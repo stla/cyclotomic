@@ -9,7 +9,7 @@
 #' @seealso \code{\link{isRational}}
 #'
 #' @examples
-#' maybeRational(e(4))
+#' maybeRational(zeta(4))
 #' maybeRational(cosDeg(60)) # use `from_just` to get the value
 maybeRational <- function(cyc) {
   if(cyc@order == 1L) {

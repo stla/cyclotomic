@@ -17,7 +17,7 @@ A \code{maybe} value, \code{just} a rational number if \code{cyc}
 Cyclotomic number as exact rational number if possible.
 }
 \examples{
-maybeRational(e(4))
+maybeRational(zeta(4))
 maybeRational(cosDeg(60)) # use `from_just` to get the value
 }
 \seealso{

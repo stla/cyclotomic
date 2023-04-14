@@ -19,7 +19,7 @@ cosDeg <- function(rat) {
   n <- as.bigq(rat) / 360L
   num <- abs(as.integer(numerator(n)))
   den <- as.integer(denominator(n))
-  a <- e(den)^num
+  a <- zeta(den)^num
   realPart(a)
 }
 
@@ -30,7 +30,7 @@ sinDeg <- function(rat) {
   n <- as.bigq(rat) / 360L
   num <- abs(as.integer(numerator(n)))
   den <- as.integer(denominator(n))
-  a <- e(den)^num
+  a <- zeta(den)^num
   out <- imaginaryPart(a)
   if(n < 0L) {
     out <- -out

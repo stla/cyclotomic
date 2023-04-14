@@ -16,5 +16,5 @@ A cyclotomic number.
 The imaginary part of a cyclotomic number.
 }
 \examples{
-imaginaryPart(e(9))
+imaginaryPart(zeta(9))
 }

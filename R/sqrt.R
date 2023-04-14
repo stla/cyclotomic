@@ -2,7 +2,7 @@ eb <- function(n) {
   if(n == 1L) {
     return(0L)
   }
-  en <- e(n)
+  en <- zeta(n)
   rng <- 1L:((n-1L) %/% 2L)
   toadd <- lapply(rng, function(k) {
     powerCyc(en, (k*k) %% n)
@@ -18,14 +18,15 @@ sqrtPositiveInteger <- function(n) {
   if(length(primes) != 0L) {
     fact <- as.integer(prod(intpow(primes, as.integer(powers %/% 2L))))
     nn   <- as.integer(prod(intpow(primes, powers %% 2L)))
-  } else{
+  } else {
     fact <- nn <- 1L
   }
   switch(
     nn %% 4L,
     "1" = fromInteger(fact) * (2L * eb(nn) + 1L),
-    "2" = fromInteger(fact) * (e(8L) - e(8L)^3L) * sqrtPositiveInteger(nn %/% 2L),
-    "3" = fromInteger(-fact) * e(4L) * (2L * eb(nn) + 1L),
+    "2" = fromInteger(fact) *
+      (zeta(8L) - zeta(8L)^3L) * sqrtPositiveInteger(nn %/% 2L),
+    "3" = fromInteger(-fact) * zeta(4L) * (2L * eb(nn) + 1L),
     "0" = fromInteger(2L*fact) * sqrtPositiveInteger(nn %/% 4L)
   )
 }
@@ -34,7 +35,7 @@ sqrtInteger <- function(n) { # n is integer
   if(n == 0L) {
     zeroCyc()
   } else if(n < 0L) {
-    e(4L) * sqrtPositiveInteger(-n)
+    zeta(4L) * sqrtPositiveInteger(-n)
   } else {
     sqrtPositiveInteger(n)
   }

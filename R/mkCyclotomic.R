@@ -18,15 +18,15 @@ intpow <- Vectorize(function(p, k) {
 })
 
 #' @title The primitive n-th root of unity.
-#' @description For example, `e(4) = i` is the primitive 4th root of unity,
-#'   and `e(5) = exp(2*pi*i/5)` is the primitive 5th root of unity.
-#'   In general, `e(n) = exp(2*pi*i/n)`.
+#' @description For example, `zeta(4) = i` is the primitive 4th root of unity,
+#'   and `zeta(5) = exp(2*pi*i/5)` is the primitive 5th root of unity.
+#'   In general, `zeta(n) = exp(2*pi*i/n)`.
 #' @param n a positive integer
 #' @return A cyclotomic number.
 #' @export
 #' @examples
-#' e(4)
-e <- function(n) {
+#' zeta(4)
+zeta <- function(n) {
   stopifnot(isStrictlyPositiveInteger(n))
   n <- as.integer(n)
   if(n == 1L) {

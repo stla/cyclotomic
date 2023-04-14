@@ -13,13 +13,13 @@ ___
 
 The set of cyclotomic numbers is a field obtained by extending the set of 
 rational numbers with the complex roots of unity. The main function used to 
-construct a cyclotomic number in this package is `e`, it returns a principal 
-root of the unity. For example `e(4)` is the principal fourth root of unity, 
+construct a cyclotomic number in this package is `zeta`, it returns a primitive 
+root of the unity. For example `zeta(4)` is the primitive fourth root of unity, 
 that is the imaginary unit.
 
 ```{r}
 library(cyclotomic)
-im <- e(4)
+im <- zeta(4)
 im^2
 ```
 
@@ -33,11 +33,11 @@ b <- as.cyclotomic("3/2")
 (a + im * b)^2
 ```
 
-Note that while `e(4)` is printed as `e(4)`, this is not the case for all 
+Note that while `zeta(4)` is printed as `zeta(4)`, this is not the case for all 
 roots of unity:
 
 ```{r}
-e(9)
+zeta(9)
 ```
 
 The set of cyclotomic numbers contains all the square roots of rational numbers, 

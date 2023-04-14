@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' conjugate(e(4)) # should be -e(4)
+#' conjugate(zeta(4)) # should be -zeta(4)
 conjugate <- function(cyc) {
   n    <- cyc@order
   trms <- cyc@terms
@@ -29,7 +29,7 @@ conjugate <- function(cyc) {
 #' @export
 #'
 #' @examples
-#' realPart(e(9))
+#' realPart(zeta(9))
 realPart <- function(cyc) {
   as.bigq("1/2") * (cyc + conjugate(cyc))
 }
@@ -43,9 +43,9 @@ realPart <- function(cyc) {
 #' @export
 #'
 #' @examples
-#' imaginaryPart(e(9))
+#' imaginaryPart(zeta(9))
 imaginaryPart <- function(cyc) {
-  - as.bigq("1/2") * e(4) * (cyc - conjugate(cyc))
+  - as.bigq("1/2") * zeta(4) * (cyc - conjugate(cyc))
 }
 
 #' @title Is the cyclotomic a real number?

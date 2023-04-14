@@ -14,7 +14,7 @@ showCyclotomic <- function(cyc) {
 }
 
 showBaseExp <- function(n, ex) {
-  en <- sprintf("e(%s)", n)
+  en <- sprintf("zeta(%s)", n)
   if(ex == 1L) {
     en
   } else {

@@ -16,5 +16,5 @@ A cyclotomic number, the complex conjugate of \code{cyc}.
 Complex conjugate of a cyclotomic number.
 }
 \examples{
-conjugate(e(4)) # should be -e(4)
+conjugate(zeta(4)) # should be -zeta(4)
 }

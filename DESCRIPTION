@@ -5,7 +5,7 @@ Version: 0.0.0.9000
 Authors@R: c(
     person("Stéphane", "Laurent", , "laurent_step@outlook.fr", role = c("aut", "cre")),
     person("Scott N.", "Walck", role = "cph",
-           comment = "author of the Haskell library 'cyclotomic' package")
+           comment = "author of the Haskell library 'cyclotomic'")
   )
 Maintainer: Stéphane Laurent <laurent_step@outlook.fr>
 Description: The cyclotomic numbers are complex numbers that can be

@@ -66,3 +66,8 @@ cosDeg(60)
 sinDeg(60) == cycSqrt(3) / 2
 ## [1] TRUE
 ```
+
+------------------------------------------------------------------------
+
+This package is a port of the Haskell library **cyclotomic**, written by
+Scott N. Walck.

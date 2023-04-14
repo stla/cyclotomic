@@ -4,6 +4,16 @@ test_that("e(45)^5 == e(9)", {
   )
 })
 
+test_that("convert to complex", {
+  im <- e(4)
+  a <- as.cyclotomic(5)
+  b <- as.cyclotomic("3/2")
+  z <- (a + im * b)^2
+  expect_equal(
+    asComplex(z), (5 + 3i/2)^2
+  )
+})
+
 test_that("product square roots", {
   expect_true(
     cycSqrt(3) * cycSqrt(6) == cycSqrt(18)

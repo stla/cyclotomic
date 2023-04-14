@@ -34,7 +34,6 @@ Collate:
     'Cyclotomic.R'
     'arithmetic.R'
     'conjugate.R'
-    'constants.R'
     'is.R'
     'maputils.R'
     'mkCyclotomic.R'

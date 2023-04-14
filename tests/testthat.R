@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(cyclotomic2)
+library(cyclotomic)
 
-test_check("cyclotomic2")
+test_check("cyclotomic")

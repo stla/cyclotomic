@@ -3,7 +3,7 @@
 #'   \strong{maybe} package.
 #'   Follow the link to its documentation: 
 #'   \code{\link[maybe:from_just]{from_just}}. 
-#'   It has been imported for convenient use of the \code{\link{maybeRat}} 
+#'   It has been imported for convenient use of the \code{\link{maybeRational}} 
 #'   function, which possibly returns a 'Just' value.
 #' @importFrom maybe from_just
 #' @export from_just

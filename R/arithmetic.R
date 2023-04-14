@@ -129,7 +129,7 @@ invCyc <- function(cyc) {
   if(is.null(pgc)) {
     pgc <- fromInteger(1L)
   }
-  maybe_rat <- toRat(prodCyc(cyc, pgc))
+  maybe_rat <- maybeRational(prodCyc(cyc, pgc))
   if(is_just(maybe_rat)) {
     r <- from_just(maybe_rat)
     prodRatCyc(1L/r, pgc)

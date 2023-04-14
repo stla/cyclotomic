@@ -1,7 +1,7 @@
 #' @title Cosine and sine of a rational number
-#' @description Cosine and sine of a rational number as a cyclotomic number.
+#' @description Cosine and sine of a rational angle as a cyclotomic number.
 #'
-#' @param rat an integer number, a \strong{gmp} rational number, or a
+#' @param theta an integer number, a \strong{gmp} rational number, or a
 #'   fraction given as a character string (e.g. \code{"2/7"})
 #'
 #' @return A cyclotomic number.
@@ -17,23 +17,23 @@
 #' @examples
 #' cosDeg(60)
 #' cosDeg("2/3")^2 + sinDeg("2/3")^2 == 1
-cosDeg <- function(rat) {
-  stopifnot(is.bigq(rat) || isFraction(rat) || isInteger(rat))
-  cosRev(as.bigq(rat) / 360L)
+cosDeg <- function(theta) {
+  stopifnot(is.bigq(theta) || isFraction(theta) || isInteger(theta))
+  cosRev(as.bigq(theta) / 360L)
 }
 
 #' @rdname trigonometry
 #' @export
-sinDeg <- function(rat) {
-  stopifnot(is.bigq(rat) || isFraction(rat) || isInteger(rat))
-  sinRev(as.bigq(rat) / 360L)
+sinDeg <- function(theta) {
+  stopifnot(is.bigq(theta) || isFraction(theta) || isInteger(theta))
+  sinRev(as.bigq(theta) / 360L)
 }
 
 #' @rdname trigonometry
 #' @export
-cosRev <- function(rat) {
-  stopifnot(is.bigq(rat) || isFraction(rat) || isInteger(rat))
-  n <- as.bigq(rat)
+cosRev <- function(theta) {
+  stopifnot(is.bigq(theta) || isFraction(theta) || isInteger(theta))
+  n <- as.bigq(theta)
   num <- abs(as.integer(numerator(n)))
   den <- as.integer(denominator(n))
   a <- zeta(den)^num
@@ -42,15 +42,11 @@ cosRev <- function(rat) {
 
 #' @rdname trigonometry
 #' @export
-sinRev <- function(rat) {
-  stopifnot(is.bigq(rat) || isFraction(rat) || isInteger(rat))
-  n <- as.bigq(rat)
+sinRev <- function(theta) {
+  stopifnot(is.bigq(theta) || isFraction(theta) || isInteger(theta))
+  n <- as.bigq(theta)
   num <- abs(as.integer(numerator(n)))
   den <- as.integer(denominator(n))
   a <- zeta(den)^num
-  out <- imaginaryPart(a)
-  if(n < 0L) {
-    out <- -out
-  }
-  out
+  if(n >= 0L) imaginaryPart(a) else -imaginaryPart(a)
 }

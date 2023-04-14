@@ -8,23 +8,23 @@
 \alias{sinRev}
 \title{Cosine and sine of a rational number}
 \usage{
-cosDeg(rat)
+cosDeg(theta)
 
-sinDeg(rat)
+sinDeg(theta)
 
-cosRev(rat)
+cosRev(theta)
 
-sinRev(rat)
+sinRev(theta)
 }
 \arguments{
-\item{rat}{an integer number, a \strong{gmp} rational number, or a
+\item{theta}{an integer number, a \strong{gmp} rational number, or a
 fraction given as a character string (e.g. \code{"2/7"})}
 }
 \value{
 A cyclotomic number.
 }
 \description{
-Cosine and sine of a rational number as a cyclotomic number.
+Cosine and sine of a rational angle as a cyclotomic number.
 }
 \details{
 The function \code{cosDeg}, resp. \code{sinDeg}, returns the cosine,

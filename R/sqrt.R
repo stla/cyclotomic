@@ -10,7 +10,7 @@ eb <- function(n) {
   Reduce(sumCyc, toadd)
 }
 
-sqrtPositiveInteger <- function(n) {
+sqrtPositiveInteger <- function(n) { # n is integer
   fctrs <- factorise(n)
   primes <- as.integer(fctrs[["primes"]])
   powers <- fctrs[["k"]]
@@ -25,9 +25,7 @@ sqrtPositiveInteger <- function(n) {
   )
 }
 
-sqrtInteger <- function(n) {
-  stopifnot(isInteger(n))
-  n <- as.integer(n)
+sqrtInteger <- function(n) { # n is integer
   if(n == 0L) {
     zeroCyc()
   } else if(n < 0L) {
@@ -47,7 +45,8 @@ sqrtRational <- function(rat) {
 #' @description Square root of an integer or a rational number as a cyclotomic
 #'   number.
 #'
-#' @param x an integer or a \strong{gmp} rational number (\code{bigq} object)
+#' @param x an integer, a \strong{gmp} rational number (\code{bigq} object), or
+#'   a fraction given as a string (e.g. \code{"5/3"})
 #'
 #' @return The square root of \code{x} as a cyclotomic number.
 #' @export
@@ -57,9 +56,11 @@ sqrtRational <- function(rat) {
 #' phi <- (1 + cycSqrt(5)) / 2 # the golden ratio
 #' phi^2 - phi # should be 1
 cycSqrt <- function(x) {
-  if(is.bigq(x)) {
+  if(isFraction(x) || is.bigq(x)) {
     sqrtRational(x)
+  } else if(isInteger(x)) {
+    sqrtInteger(as.integer(x))
   } else {
-    sqrtInteger(x)
+    stop("Invalid argument `x`.")
   }
 }

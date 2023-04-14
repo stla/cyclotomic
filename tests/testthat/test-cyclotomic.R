@@ -1,0 +1,32 @@
+test_that("e(45)^5 == e(9)", {
+  expect_true(
+    e(45)^5 == e(9)
+  )
+})
+
+test_that("product square roots", {
+  expect_true(
+    cycSqrt(3) * cycSqrt(6) == cycSqrt(18)
+  )
+})
+
+test_that("ratio square roots", {
+  rat <- "5/3"
+  expect_true(
+    cycSqrt(rat) == cycSqrt(5) / cycSqrt(3)
+  )
+})
+
+test_that("decomposition real/imaginary parts", {
+  im <- e(4)
+  z <- e(9)
+  expect_true(
+    realPart(z) + im * imaginaryPart(z) == z
+  )
+})
+
+test_that("trigonometry", {
+  expect_true(
+    cosDeg("2/7")^2 + sinDeg("2/7")^2 == 1
+  )
+})

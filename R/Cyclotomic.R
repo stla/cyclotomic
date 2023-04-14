@@ -4,7 +4,7 @@ NULL
 
 setClass(
   "cyclotomic",
-  slots = c(order = "character", terms = "list")
+  slots = c(order = "integer", terms = "ANY")
 )
 
 setMethod(
@@ -27,7 +27,7 @@ setMethod(
 asComplex <- function(cyc) {
   n <- as.double(cyc@order)
   en <- exp(2 * complex(real = 0, imaginary = 1) * pi / n)
-  lst <- cyc@terms$as_list()
+  lst <- cyc@terms$toList()
   powers <- as.integer(names(lst))
   sum(vapply(seq_along(lst), function(i) {
     asNumeric(lst[[i]]) * en^powers[i]
@@ -234,6 +234,36 @@ setMethod(
 setMethod(
   "Compare",
   signature(e1 = "cyclotomic", e2 = "cyclotomic"),
+  function(e1, e2) {
+    switch(
+      .Generic,
+      "==" = isZeroCyc(e1 - e2),
+      "!=" = !isZeroCyc(e1 - e2),
+      stop(gettextf(
+        "Comparison operator %s not defined for cyclotomic objects.", dQuote(.Generic)
+      ))
+    )
+  }
+)
+
+setMethod(
+  "Compare",
+  signature(e1 = "cyclotomic", e2 = "numeric"),
+  function(e1, e2) {
+    switch(
+      .Generic,
+      "==" = isZeroCyc(e1 - e2),
+      "!=" = !isZeroCyc(e1 - e2),
+      stop(gettextf(
+        "Comparison operator %s not defined for cyclotomic objects.", dQuote(.Generic)
+      ))
+    )
+  }
+)
+
+setMethod(
+  "Compare",
+  signature(e1 = "cyclotomic", e2 = "bigq"),
   function(e1, e2) {
     switch(
       .Generic,

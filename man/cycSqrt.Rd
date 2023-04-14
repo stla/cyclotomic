@@ -7,7 +7,8 @@
 cycSqrt(x)
 }
 \arguments{
-\item{x}{an integer or a \strong{gmp} rational number (\code{bigq} object)}
+\item{x}{an integer, a \strong{gmp} rational number (\code{bigq} object), or
+a fraction given as a string (e.g. \code{"5/3"})}
 }
 \value{
 The square root of \code{x} as a cyclotomic number.

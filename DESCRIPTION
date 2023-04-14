@@ -22,10 +22,11 @@ License: GPL-3
 URL: https://github.com/stla/cyclotomic
 BugReports: https://github.com/stla/cyclotomic/issues
 Imports: 
-    fastmap,
+    intmap,
     gmp,
     maybe,
     methods,
+    primes,
     VeryLargeIntegers
 Encoding: UTF-8
 RoxygenNote: 7.2.3
@@ -39,3 +40,7 @@ Collate:
     'mkCyclotomic.R'
     'showCyclotomic.R'
     'sqrt.R'
+    'trigonometry.R'
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

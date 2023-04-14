@@ -1,5 +1,6 @@
-#' @importFrom VeryLargeIntegers as.vli factors gcd lcmul is.vli phi
-#' @importFrom maybe is_just is_nothing from_just
+#' @importFrom VeryLargeIntegers as.vli factors is.vli phi
+#' @importFrom primes Rgcd
+#' @importFrom maybe is_just is_nothing from_just nothing just
 #' @importFrom gmp as.bigq numerator denominator is.bigq asNumeric
 NULL
 
@@ -16,42 +17,41 @@ e <- function(n) {
   stopifnot(isStrictlyPositiveInteger(n))
   n <- as.integer(n)
   if(n == 1L) {
-    trms <- fastmap()
-    trms$set("0", as.bigq(1L))
-    new("cyclotomic", order = "1", terms = trms)
+    trms <- intmap$new()
+    trms$insert(0L, as.bigq(1L))
+    new("cyclotomic", order = 1L, terms = trms)
   } else {
-    trms <- fastmap()
-    trms$set("1", as.bigq(1L))
+    trms <- intmap$new()
+    trms$insert(1L, as.bigq(1L))
     cyclotomic(n, convertToBase(n, trms))
   }
 }
 
 replacements <- function(n, p, r) {
-  n <- as.vli(n)
-  s <- n / as.vli(p)
-  r <- as.vli(r)
-  rpl1 <- character(0L)
+  n <- as.integer(n)
+  s <- as.integer(n %/% p)
+  rpl1 <- integer(0L)
   x <- r - s
   while(x >= 0L) {
-    rpl1 <- c(rpl1, as.character(x))
+    rpl1 <- c(rpl1, x)
     x <- x - s
   }
-  rpl2 <- character(0L)
+  rpl2 <- integer(0L)
   x <- r + s
   while(x < n) {
-    rpl2 <- c(rpl2, as.character(x))
+    rpl2 <- c(rpl2, x)
     x <- x + s
   }
   c(rpl1, rpl2)
 }
 
 replace <- function(n, p, r, trms) {
-  out <- trms$clone()
-  if(!out$has(r)) {
+  out <- trms #$copy()
+  if(!out$has_key(r)) {
     return(out)
   }
   minusrat <- -out$get(r)
-  out$remove(r)
+  out$erase(r)
   rpl <- rev(replacements(n, p, r))
   for(k in rpl) {
     insertWith(`+`, out, k, minusrat)
@@ -60,21 +60,20 @@ replace <- function(n, p, r, trms) {
 }
 
 factorise <- function(n) {
-  n <- as.vli(n)
   if(n == 1L) {
-    return(list(primes = character(0L), k = integer(0L)))
+    return(list(primes = integer(0L), k = integer(0L)))
   }
-  fctrs <- factors(n, iter = 100L, output = "list")
+  fctrs <- factors(as.vli(n), iter = 100L, output = "list")
   if(is.vli(fctrs)) { # workaround pb si un seul facteur
     fctrs <- list(fctrs)
   }
   fcts <- vapply(
-    fctrs, as.character, FUN.VALUE = character(1L)
+    fctrs, as.integer, FUN.VALUE = integer(1L)
   )
   tbl <- table(fcts)
   list(
-    primes = names(tbl),
-    k      = c(tbl)
+    primes = as.integer(names(tbl)),
+    k      = as.integer(c(tbl))
   )
 }
 
@@ -93,48 +92,46 @@ pqPairs <- function(n) {
   powers <- fctr[["k"]]
   vapply(seq_along(primes), function(i) {
     p <- primes[i]
-    c(p, as.character(as.vli(p)^powers[i]))
-  }, FUN.VALUE = character(2L))
+    c(p, as.integer(p^powers[i]))
+  }, FUN.VALUE = integer(2L))
 }
 
-includeMods <- function(n, q, start) { # n and q are vli
+includeMods <- function(n, q, start) { # n, q and start are integers
   out <- start
-  start <- as.vli(start)
   x <- start - q
   while(x >= 0L) {
-    out <- c(out, as.character(x))
+    out <- c(out, x)
     x <- x - q
   }
   x <- start + q
   while(x < n) {
-    out <- c(out, as.character(x))
+    out <- c(out, x)
     x <- x + q
   }
   out
 }
 
 removeExps <- function(n, p, q) {
-  n <- as.vli(n)
-  q <- as.vli(q)
+  n <- as.integer(n)
+  q <- as.integer(q)
   f <- function(start) includeMods(n, q, start)
-  ndivq <- n / q
-  if(p == "2") {
-    x <- q / 2L
-    out <- f(as.character(ndivq * x))
+  ndivq <- n %/% q
+  if(p == 2L) {
+    x <- as.integer(q %/% 2L)
+    out <- f(ndivq * x)
     qm1 <- q - 1L
     while(x < qm1) {
       x <- x + 1L
-      out <- c(out, f(as.character(ndivq * x)))
+      out <- c(out, f(ndivq * x))
     }
     return(out)
   }
-  p <- as.vli(p)
-  m <- (q / (p - 1L)) / 2L
-  x <- 0L - m
-  out <- f(as.character(ndivq * x))
+  m <- as.integer((q %/% p - 1L) %/% 2L) # Y'AVAIT ERREUR ICI
+  x <- - m
+  out <- f(ndivq * x)
   while(x < m) {
     x <- x + 1L
-    out <- c(out, f(as.character(ndivq * x)))
+    out <- c(out, f(ndivq * x))
   }
   out
 }
@@ -151,12 +148,12 @@ extraneousPowers <- function(n) {
 }
 
 convertToBase <- function(n, trms) {
-  out <- trms$clone()
+  out <- trms #$copy()
   if(n == 1L) {
     return(out)
   }
   epows <- extraneousPowers(n)
-  for(i in 1L:nrow(epows)) {
+  for(i in nrow(epows):1L) {
     pr <- epows[i, ]
     out <- replace(n, pr[1L], pr[2L], out)
   }
@@ -165,79 +162,65 @@ convertToBase <- function(n, trms) {
 
 equalReplacements <- function(p, r, cyc) {
   xx <- vapply(replacements(cyc@order, p, r), function(k) {
-    as.character(cyc@terms$get(k, missing = as.bigq("0")))
+    as.character(cyc@terms$get(k, default = as.bigq(0L)))
   }, FUN.VALUE = character(1L))
   x1 <- xx[1L]
   for(x in xx[-1L]) {
     if(x != x1) {
-      return(nothing())
+      return(NULL)
     }
   }
-  just(x1)
+  return(x1)
 }
 
 reduceByPrime <- function(p, cyc) { # p: integer; cyc: cyclotomic; output: cyclotomic
-  n <- as.vli(cyc@order)
+  n <- cyc@order
   cfs <- as.bigq(integer(0L))
-  x <- equalReplacements(p, "0", cyc)
-  if(is_just(x)) {
-    rat <- as.bigq(from_just(x))
+  x <- equalReplacements(p, 0L, cyc)
+  r <- p
+  nminusp <- n - p
+  while(r <= nminusp && !is.null(x)) {
+    rat <- as.bigq(x)
     cfs <- c(cfs, -rat)
+    x <- equalReplacements(p, r, cyc)
+    r <- r + p # Y'AVAIT ERREUR
   }
-  r <- as.vli(p)
-  nminusp <- n - r
-  while(is_just(x) && r <= nminusp) {
-    rat <- as.bigq(from_just(x))
-    cfs <- c(cfs, -rat)
-    x <- equalReplacements(p, as.character(r), cyc)
-    r <- r + 1L
-  }
-  if(is_nothing(x)) {
+  if(is.null(x)) {
     return(cyc)
   }
-  ndivp <- n / as.vli(p)
-  trms <- fastmap()
-  ii <- as.vli("0")
+  ndivp <- as.integer(n %/% p)
+  trms <- intmap$new()
+  ii <- 0L
   i <- 1L
   l <- length(cfs)
   while(ii < ndivp && i <= l) {
     coef <- cfs[i]
-    if(coef != 0L) trms$set(as.character(i), coef)
+    if(coef != 0L) trms$insert(ii, coef) # Y'AVAIT ERREUR
     ii <- ii + 1L
     i <- i + 1L
   }
   new(
     "cyclotomic",
-    order = as.character(ndivp),
+    order = ndivp,
     terms = removeZeros(trms)
   )
 }
 
 gcdList <- function(lst) {
-  n  <- lst[1L]
-  ns <- lst[-1L]
-  Reduce(
-    function(x, y) {
-      as.character(gcd(as.vli(x), as.vli(y)))
-    },
-    x = ns,
-    init = n,
-    right = TRUE
-  )
+  do.call(Rgcd, lst)
 }
 
 gcdCyc <- function(cyc) {
-  keys <- cyc@terms$keys()
-  gcdList(c(cyc@order, keys))
+  gcdList(as.list(c(cyc@order, cyc@terms$keys())))
 }
 
 gcdReduce <- function(cyc) {
-  d <- as.vli(gcdCyc(cyc))
+  d <- gcdCyc(cyc)
   if(d == 1L) {
     cyc
   } else {
     f <- function(n) {
-      as.character(as.vli(n) / d)
+      as.integer(n %/% d)
     }
     neworder <- f(cyc@order)
     newterms <- mapKeys(f, cyc@terms)
@@ -257,27 +240,26 @@ lenCyc <- function(cyc) {
 equalCoefficients <- function(cyc) {
   trms <- cyc@terms
   if(trms$size() == 0L) {
-    return(nothing())
+    return(NULL)
   }
   keys <- trms$keys()
   firstelem <- trms$get(keys[1L])
   for(key in keys[-1L]) {
     elem <- trms$get(key)
     if(elem != firstelem) {
-      return(nothing())
+      return(NULL)
     }
   }
-  return(just(firstelem))
+  return(firstelem)
 }
 
 tryRational <- function(cyc) {
   pns <- phiNrpSqfree(cyc@order)
   if(pns[["sqfree"]] && lenCyc(cyc) == pns[["phi"]]) {
-    eqtrms <- equalCoefficients(cyc)
-    if(is_nothing(eqtrms)) {
+    rat <- equalCoefficients(cyc)
+    if(is.null(rat)) {
       cyc
     } else {
-      rat <- from_just(eqtrms)
       fromRational(if(pns[["nrp"]] %% 2L == 0L) rat else -rat)
     }
   } else {
@@ -289,18 +271,18 @@ tryReduce <- function(cyc) {
   fctr <- factorise(cyc@order)
   primes <- fctr[["primes"]]
   powers <- fctr[["k"]]
-  ok <- powers == 1L & primes != "2"
+  ok <- powers == 1L & primes != 2L
   squareFreeOddFactors <- primes[ok]
   if(length(squareFreeOddFactors) == 0L) {
     return(cyc)
   }
-  Reduce(reduceByPrime, squareFreeOddFactors, init = cyc, right = TRUE)
+  Reduce(reduceByPrime, rev(squareFreeOddFactors), init = cyc, right = TRUE)
 }
 
 cyclotomic <- function(ord, trms) {
   cyc <- new(
     "cyclotomic",
-    order = as.character(ord),
+    order = ord,
     terms = removeZeros(trms)
   )
   tryReduce(tryRational(gcdReduce(cyc)))
@@ -308,7 +290,7 @@ cyclotomic <- function(ord, trms) {
 
 mkCyclotomic <- function(ord, trms) {
   cyclotomic(
-    as.character(ord),
-    convertToBase(as.character(ord), trms)
+    as.integer(ord),
+    convertToBase(as.integer(ord), trms)
   )
 }

@@ -4,7 +4,7 @@ showCyclotomic <- function(cyc) {
   if(mp$size() == 0L) {
     return("0")
   }
-  xxs <- mp$as_list()
+  xxs <- mp$toList()
   ex  <- names(xxs)[1L]
   rat <- xxs[[1L]]
   xs  <- xxs[-1L]
@@ -15,7 +15,7 @@ showCyclotomic <- function(cyc) {
 
 showBaseExp <- function(n, ex) {
   en <- sprintf("e(%s)", n)
-  if(ex == "1") {
+  if(ex == 1L) {
     en
   } else {
     sprintf("%s^%s", en, ex)
@@ -23,7 +23,7 @@ showBaseExp <- function(n, ex) {
 }
 
 leadingTerm <- function(rat, n, ex) {
-  if(ex == "0") {
+  if(ex == 0L) {
     as.character(rat)
   } else {
     t <- showBaseExp(n, ex)

@@ -17,7 +17,10 @@ Description: The cyclotomic numbers are complex numbers that can be
     algorithms implemented in this package are taken from the 'Haskell'
     package 'cyclotomic', whose algorithms are adapted from code by Martin
     Schoenert and Thomas Breuer in the 'GAP' project
-    (<https://www.gap-system.org/>).
+    (<https://www.gap-system.org/>). Cyclotomic numbers have applications in
+    number theory, algebraic geometry, algebraic number theory, coding 
+    theory, and in the theory of graphs and combinatorics. They have 
+    connections to the theory of modular functions and modular curves.
 License: GPL-3
 URL: https://github.com/stla/cyclotomic
 BugReports: https://github.com/stla/cyclotomic/issues

@@ -55,10 +55,10 @@ cycSqrt("5/3") == cycSqrt(5) / cycSqrt(3)
 ## [1] TRUE
 ```
 
-The set of cyclotomic numbers also contains the cosine and sine of the
-rational multiples of pi. In particular, it contains the cosine and sine
-of any rational number when this number represents an angle given in
-degrees.
+The set of cyclotomic numbers also contains the cosine and the sine of
+the rational multiples of pi. In particular, it contains the cosine and
+the sine of any rational number when this number represents an angle
+given in degrees.
 
 ``` r
 cosDeg(60)

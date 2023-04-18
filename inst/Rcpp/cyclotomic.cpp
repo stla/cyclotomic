@@ -15,6 +15,14 @@ void insertWithPlus(std::map<int, gmpq> mp, int k, gmpq v) {
   mp[k] = v;
 }
 
+gmpq getOrZero(std::map<int, gmpq> mp, int k) {
+  if(mp.contains(k)) {
+    return mp.at(k);
+  } else {
+    return 0;
+  }
+}
+
 std::vector<int> replacements(int n, int p, int r) {
   int s = n / p;
   std::vector<int> rpl(0);
@@ -78,4 +86,62 @@ std::vector<int> removeExps(int n, int p, int q) {
     }
   }
   return out;
+}
+
+std::optional<gmpq> equalReplacements(int p, int r, cyclotomic cyc) {
+  int ord = cyc.order;
+  std::map<int, gmpq> trms = cyc.terms;
+  std::vector<int> rpl = replacements(ord, p, r);
+  gmpq x1 = getOrZero(trms, rpl[0]);
+  int l = rpl.size();
+  gmpq x;
+  for(int i = 1; i < l; i++) {
+    x = getOrZero(trms, rpl[i]);
+    if(x != x1) {
+      return std::nullopt;
+    }
+  }
+  return x1;
+}
+
+cyclotomic reduceByPrime(int p, cyclotomic cyc) {
+  int n = cyc.order;
+  std::vector<gmpq> cfs(0);
+  std::optional<gmpq> x = equalReplacements(p, 0, cyc);
+  int r = p;
+  while(r < n - p && x) {
+    cfs.push_back(-(*x));
+    x = equalReplacements(p, r, cyc);
+    r += p;
+  }
+  if(x) {
+    int ndivp = n / p;
+    std::map<int, gmpq> trms;
+    int i = 0;
+    int l = cfs.size();
+    while(i < ndivp && i < l) {
+      gmp coef = cfs[i];
+      if(coef != 0) {
+        trms[i] = coef;
+      }
+      i++;
+    }
+    cyclotomic out;
+    out.order = ndivp;
+    out.terms = trms;
+    return out;
+  } else {
+    return cyc;
+  }
+}
+
+void removeZeros(std::map<int, gmpq> mp) {
+  std::map<int, gmpq>::iterator it = mp.begin();
+  while(it != mp.end()) {
+    if(it->second == 0) {
+      it = mp.erase(it);
+    } else {
+      ++it;
+    }
+  }
 }

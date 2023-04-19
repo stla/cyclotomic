@@ -347,20 +347,21 @@ cyclotomic sumCyc(cyclotomic cyc1, cyclotomic cyc2) {
   return mkCyclotomic(ord, trms);
 }
 
-cyclotomic zeroCyc() {
-  std::map<int, gmpq> trms;
-  cyclotomic cyc;
-  cyc.order = 1;
-  cyc.terms = trms;
-  return cyc;
-}
+const cyclotomic zeroCyc = {1, {}};
+// cyclotomic zeroCyc() {
+//   std::map<int, gmpq> trms;
+//   cyclotomic cyc;
+//   cyc.order = 1;
+//   cyc.terms = trms;
+//   return cyc;
+// }
 
 cyclotomic prodCyc(cyclotomic cyc1, cyclotomic cyc2) {
   if(isZero(cyc1)) {
-    return zeroCyc();
+    return zeroCyc;
   }
   if(isZero(cyc2)) {
-    return zeroCyc();
+    return zeroCyc;
   }
   int o1 = cyc1.order;
   std::map<int, gmpq> trms1 = cyc1.terms;
@@ -391,7 +392,7 @@ cyclotomic fromInteger(int n) {
 
 cyclotomic prodRatCyc(gmpq rat, cyclotomic cyc) {
   if(rat == 0) {
-    return zeroCyc();
+    return zeroCyc;
   }
   std::map<int, gmpq> trms = cyc.terms;
   std::map<int, gmpq> newtrms;
@@ -409,8 +410,10 @@ cyclotomic minusCyc(cyclotomic cyc) {
   return prodRatCyc(o, cyc);
 }
 
+const cyclotomic oneCyc = {1, {{0, gmpq(1)}}};
+
 cyclotomic powerCyc(cyclotomic cyc, int p){ // TODO: p < 0 - requires invCyc
-  cyclotomic result = fromInteger(1);
+  cyclotomic result = oneCyc;
   if(p >= 0) {
     while(p) {
       if(p & 1) {
@@ -422,7 +425,7 @@ cyclotomic powerCyc(cyclotomic cyc, int p){ // TODO: p < 0 - requires invCyc
     return result;
   }
   // if p < 0 TODO
-  return zeroCyc();
+  return zeroCyc;
 }
 
 
@@ -433,7 +436,7 @@ const cyclotomic im = {4, {{1, gmpq(1)}}};
 
 cyclotomic eb(int n) {
   if(n == 1) {
-    return zeroCyc();
+    return zeroCyc;
   }
   cyclotomic zetan = zeta(n);
   cyclotomic result = zetan;

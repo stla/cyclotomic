@@ -157,3 +157,19 @@ int gcdCyc(cyclotomic cyc) {
   return Rcpp::as<int>(f(x));
 }
 
+cyclotomic gcdReduce(cyclotomic cyc) {
+  int d = gcdCyc(cyc);
+  if(d == 1) {
+    return cyc;
+  }
+  std::map<int, gmpq> trms = cyc.terms;
+  std::map<int, gmpq> newtrms;
+  for(const auto& item : trms) {
+    int key = item.first;
+    newtrms[key / d] = item.second;
+  }
+  cyclotomic out;
+  out.order = cyc.order / d;
+  out.terms = newtrms;
+  return out;
+}

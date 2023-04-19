@@ -289,6 +289,45 @@ cyclotomic zeta(int n) {
   return cyclotomic0(n, trms);
 }
 
+std::map<int, gmpq> unionWithPlus(
+    std::map<int, gmpq> mp1, std::map<int, gmpq> mp2
+) {
+  for(auto& item : mp1) {
+    int key = item.first;
+    if(mp2.contains(item.first)) {
+      mp1[key] += mp2[key];
+      mp2.erase(key);
+    }
+  }
+  for(auto& item : mp2) {
+    int key = item.first;
+    mp1[key] = mp2[key];
+  }
+  return mp1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void display(std::map<int, gmpq>& mp) {
   for(auto& it : mp) {
     Rcpp::Rcout << "Key: " << it.first << ", value: " << it.second << "\n";

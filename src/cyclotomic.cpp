@@ -213,3 +213,37 @@ void convertToBase(int n, std::map<int, gmpq> trms) {
     }
   }
 }
+
+cyclotomic fromRational(gmpq rat) {
+  std::map<int, gmpq> trms;
+  if(rat != 0) {
+    trms[0] = rat;
+  }
+  cyclotomic cyc;
+  cyc.order = 1;
+  cyc.terms = trms;
+  return cyc;
+}
+
+cyclotomic tryRational(cyclotomic cyc) {
+  Rcpp::Function f("R_phiNrpSqfree");
+  Rcpp::List pns = Rcpp::as<Rcpp::List>(f(cyc.order));
+  int phi     = Rcpp::as<int>(pns["phi"]);
+  int nrp     = Rcpp::as<int>(pns["nrp"]);
+  bool sqfree = Rcpp::as<bool>(pns["sqfree"]);
+  if(sqfree && cyc.terms.size() == phi) {
+    std::optional<gmpq> mayberat = equalCoefficients(cyc);
+    if(mayberat) {
+      gmpq rat = *mayberat;
+      if(nrp % 2 == 0) {
+        return fromRational(rat);
+      } else {
+        return fromRational(-rat);
+      }
+    } else {
+      return cyc;
+    }
+  } else {
+    return cyc;
+  }
+}

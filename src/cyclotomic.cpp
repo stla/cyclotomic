@@ -409,9 +409,6 @@ cyclotomic minusCyc(cyclotomic cyc) {
   return prodRatCyc(o, cyc);
 }
 
-
-
-
 cyclotomic powerCyc(cyclotomic cyc, int p){ // TODO: p < 0 - requires invCyc
   cyclotomic result = fromInteger(1);
   if(p >= 0) {
@@ -424,12 +421,30 @@ cyclotomic powerCyc(cyclotomic cyc, int p){ // TODO: p < 0 - requires invCyc
     }
     return result;
   }
-  // if p < 0
+  // if p < 0 TODO
   return zeroCyc();
 }
 
 
+//// | sqrt stuff ////////
+//const cyclotomic zeta8 = zeta(8); impossible because of R_extraneousPowers not found!
+//const cyclotomic sqrt2 = sumCyc(zeta8, minusCyc(powerCyc(zeta8, 3)));
+//const cyclotomic im = zeta(4);
 
+cyclotomic eb(int n) {
+  if(n == 1) {
+    return zeroCyc();
+  }
+  cyclotomic zetan = zeta(n);
+  cyclotomic result = zetan;
+  cyclotomic addme;
+  int l = (n - 1) / 2; // =0 si n=2
+  for(int k = 2; k <= l; k++) {
+    addme = powerCyc(zetan, (k * k) % n);
+    result = sumCyc(result, addme);
+  }
+  return result;
+}
 
 
 
@@ -455,7 +470,7 @@ void display(std::map<int, gmpq>& mp) {
 void test() {
   cyclotomic e4 = zeta(4);
   cyclotomic e9 = zeta(9);
-  cyclotomic cyc = powerCyc(prodCyc(e4, e9), 3);
+  cyclotomic cyc = eb(8); //powerCyc(prodCyc(e4, e9), 3);
   Rcpp::Rcout << "Order: " << cyc.order << "\n";
   display(cyc.terms);
 }

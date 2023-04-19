@@ -64,3 +64,16 @@ R_squareFreeOddFactors <- function(n) {
 R_scm <- function(n1, n2) {
   scm(n1, n2)
 }
+
+#' @export
+#' @noRd
+R_gcd <- function(n1, n2) {
+  gcd(n1, n2)
+}
+
+#' @export
+#' @noRd
+R_coprimes <- function(ord) {
+  x <- seq(2L, length.out = ord - 2L)
+  x[coprime(x, ord)]
+}

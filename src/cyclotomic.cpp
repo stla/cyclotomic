@@ -389,7 +389,30 @@ cyclotomic fromInteger(int n) {
   return fromRational(nrat);
 }
 
-cyclotomic powerCyc(cyclotomic cyc, int p){
+cyclotomic prodRatCyc(gmpq rat, cyclotomic cyc) {
+  if(rat == 0) {
+    return zeroCyc();
+  }
+  std::map<int, gmpq> trms = cyc.terms;
+  std::map<int, gmpq> newtrms;
+  for(const auto& item : trms) {
+    newtrms[item.first] = rat * item.second;
+  }
+  cyclotomic result;
+  result.order = cyc.order;
+  result.terms = newtrms;
+  return result;
+}
+
+cyclotomic minusCyc(cyclotomic cyc) {
+  gmpq o(-1);
+  return prodRatCyc(o, cyc);
+}
+
+
+
+
+cyclotomic powerCyc(cyclotomic cyc, int p){ // TODO: p < 0 - requires invCyc
   cyclotomic result = fromInteger(1);
   if(p >= 0) {
     while(p) {

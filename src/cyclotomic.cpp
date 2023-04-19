@@ -121,16 +121,15 @@ std::optional<gmpq> equalReplacements(int p, int r, cyclotomic cyc) {
 cyclotomic reduceByPrime(int p, cyclotomic cyc) {
   int n = cyc.order;
   std::vector<gmpq> cfs(0);
-  Rcpp::Rcout << "equalReplacements 0\n";
-  std::optional<gmpq> x = equalReplacements(p, 0, cyc);
-  int r = p;
+  int r = 0;
+  std::optional<gmpq> x = equalReplacements(p, r, cyc);
   while(r <= n - p && x) {
     Rcpp::Rcout << "r: " << r << "\n";
     Rcpp::Rcout << "xxx: " << *x << "\n";
     cfs.push_back(-(*x));
     Rcpp::Rcout << "equalReplacements r\n";
-    x = equalReplacements(p, r, cyc);
     r += p;
+    x = equalReplacements(p, r, cyc);
   }
   if(x) {
     Rcpp::Rcout << "x: " << *x << "\n";
@@ -528,8 +527,8 @@ cyclotomic sqrtPositiveInteger(int n) {
 // [[Rcpp::export]]
 void test() {
   //cyclotomic e4 = zeta(4);
-  cyclotomic s31 = sqrtPositiveInteger(10);
-  cyclotomic cyc = powerCyc(eb(15), 9); //powerCyc(prodCyc(e4, e9), 3);
+  cyclotomic s31 = sqrtPositiveInteger(60);
+  cyclotomic cyc = powerCyc(s31, 2); //powerCyc(prodCyc(e4, e9), 3);
   Rcpp::Rcout << "----------------------------\n";
   Rcpp::Rcout << "Order: " << cyc.order << "\n";
   display(cyc.terms);

@@ -192,7 +192,7 @@ reduceByPrime <- function(p, cyc) { # p: integer; cyc: cyclotomic; output: cyclo
   n <- cyc@order
   cfs <- as.bigq(integer(0L))
   x <- equalReplacements(p, 0L, cyc)
-  if(!is.null(x)) {
+  if(!is.null(x)) { # LA FAUTE ETAIT ICI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     rat <- as.bigq(x)
     cfs <- c(cfs, -rat)
   }

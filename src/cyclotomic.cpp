@@ -65,8 +65,9 @@ std::vector<int> includeMods(int n, int q, int start) {
 }
 
 void append(std::vector<int>& v1, std::vector<int> v2) {
+  v1.reserve(v1.size() + v2.size());
   for(const auto& k : v2) {
-    v1.push_back(k);
+    v1.emplace_back(k);
   }
 }
 
@@ -346,6 +347,42 @@ cyclotomic sumCyc(cyclotomic cyc1, cyclotomic cyc2) {
   return mkCyclotomic(ord, trms);
 }
 
+cyclotomic zeroCyc() {
+  std::map<int, gmpq> trms;
+  cyclotomic cyc;
+  cyc.order = 1;
+  cyc.terms = trms;
+  return cyc;
+}
+
+cyclotomic prodCyc(cyclotomic cyc1, cyclotomic cyc2) {
+  if(isZero(cyc1)) {
+    return zeroCyc();
+  }
+  if(isZero(cyc2)) {
+    return zeroCyc();
+  }
+  int o1 = cyc1.order;
+  std::map<int, gmpq> trms1 = cyc1.terms;
+  int o2 = cyc2.order;
+  std::map<int, gmpq> trms2 = cyc2.terms;
+  Rcpp::Function scm("R_scm");
+  int ord = Rcpp::as<int>(scm(o1, o2));
+  int m1 = ord / o1;
+  int m2 = ord / o2;
+  std::map<int, gmpq> trms;
+  for(const auto& item1 : trms1) {
+    int k1 = item1.first;
+    gmpq c1 = item1.second;
+    for(const auto& item2 : trms2) {
+      int k2 = item2.first;
+      gmpq c2 = item2.second;
+      int k = (m1 * k1 + m2 * k2) % ord;
+      insertWithPlus(trms, k, c1 * c2);
+    }
+  }
+  return mkCyclotomic(ord, trms);
+}
 
 
 
@@ -375,7 +412,7 @@ void display(std::map<int, gmpq>& mp) {
 void test() {
   cyclotomic e4 = zeta(4);
   cyclotomic e9 = zeta(9);
-  cyclotomic cyc = sumCyc(e4, e9);
+  cyclotomic cyc = prodCyc(e4, e9);
   Rcpp::Rcout << "Order: " << cyc.order << "\n";
   display(cyc.terms);
 }

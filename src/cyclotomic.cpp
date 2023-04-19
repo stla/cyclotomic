@@ -7,7 +7,7 @@ struct cyclotomic {
   std::map<int, gmpq> terms;
 };
 
-void insertWithPlus(std::map<int, gmpq> mp, int k, gmpq v) {
+void insertWithPlus(std::map<int, gmpq>& mp, int k, gmpq v) {
   if(mp.contains(k)) {
     v += mp.at(k);
   }
@@ -38,12 +38,12 @@ std::vector<int> replacements(int n, int p, int r) {
   return rpl;
 }
 
-void replace(int n, int p, int r, std::map<int, gmpq> trms) {
+void replace(int n, int p, int r, std::map<int, gmpq>& trms) {
   if(trms.contains(r)) {
     gmpq minusrat = -trms.at(r);
     trms.erase(r);
     std::vector<int> rpl = replacements(n, p, r);
-    for(int k : rpl) {
+    for(auto& k : rpl) {
       insertWithPlus(trms, k, minusrat);
     }
   }
@@ -134,7 +134,7 @@ cyclotomic reduceByPrime(int p, cyclotomic cyc) {
   }
 }
 
-void removeZeros(std::map<int, gmpq> mp) {
+void removeZeros(std::map<int, gmpq>& mp) {
   std::map<int, gmpq>::iterator it = mp.begin();
   while(it != mp.end()) {
     if(it->second == 0) {
@@ -202,14 +202,14 @@ int intpow(int base, unsigned exp){
   return result;
 }
 
-void convertToBase(int n, std::map<int, gmpq> trms) {
+void convertToBase(int n, std::map<int, gmpq>& trms) {
   if(n > 1) {
     Rcpp::Function f("R_extraneousPowers");
     Rcpp::IntegerMatrix epows = Rcpp::as<Rcpp::IntegerMatrix>(f(n));
     int l = epows.nrow();
-    for(int i = l-1; i = 0; i--) {
+    for(int i = l-1; i >= 0; i--) {
       Rcpp::IntegerVector pr = epows(i, Rcpp::_);
-      replace(n, pr(1), pr(2), trms);
+      replace(n, pr(0), pr(1), trms);
     }
   }
 }
@@ -287,4 +287,16 @@ cyclotomic zeta(int n) {
   trms[1] = one;
   convertToBase(n, trms);
   return cyclotomic0(n, trms);
+}
+
+void display(std::map<int, gmpq>& mp) {
+  for(auto& it : mp) {
+    Rcpp::Rcout << "Key: " << it.first << ", value: " << it.second << "\n";
+  }
+}
+
+// [[Rcpp::export]]
+void test() {
+  cyclotomic e9 = zeta(9);
+  display(e9.terms);
 }

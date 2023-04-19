@@ -4,10 +4,14 @@ NULL
 
 # These functions are used in Rcpp ####
 
+#' @export
+#' @noRd
 R_gcdList <- function(ivec) {
   do.call(Rgcd, as.list(ivec))
 }
 
+#' @export
+#' @noRd
 R_phiNrpSqfree <- function(n) {
   if(n == 1L) {
     return(list(
@@ -32,6 +36,8 @@ R_phiNrpSqfree <- function(n) {
   )
 }
 
+#' @export
+#' @noRd
 R_extraneousPowers <- function(n) {
   pairs <- pqPairs(n)
   x <- do.call(rbind, apply(pairs, 2L, function(pq) {
@@ -43,6 +49,8 @@ R_extraneousPowers <- function(n) {
   x[!duplicated(x), , drop = FALSE]
 }
 
+#' @export
+#' @noRd
 R_squareFreeOddFactors <- function(n) {
   fctr <- factorise(n)
   primes <- fctr[["primes"]]

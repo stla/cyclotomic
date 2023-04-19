@@ -5,3 +5,7 @@ Rcpp_removeExps <- function(n, p, q) {
     .Call(`_cyclotomic_Rcpp_removeExps`, n, p, q)
 }
 
+test <- function() {
+    invisible(.Call(`_cyclotomic_test`))
+}
+

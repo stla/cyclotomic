@@ -23,9 +23,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// test
+void test();
+RcppExport SEXP _cyclotomic_test() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    test();
+    return R_NilValue;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_cyclotomic_Rcpp_removeExps", (DL_FUNC) &_cyclotomic_Rcpp_removeExps, 3},
+    {"_cyclotomic_test", (DL_FUNC) &_cyclotomic_test, 0},
     {NULL, NULL, 0}
 };
 

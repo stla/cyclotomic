@@ -307,7 +307,7 @@ std::map<int, gmpq> unionWithPlus(
       mp2.erase(key);
     }
   }
-  for(auto& item : mp2) {
+  for(const auto& item : mp2) {
     int key = item.first;
     mp1[key] = mp2[key];
   }
@@ -405,6 +405,11 @@ cyclotomic prodRatCyc(gmpq rat, cyclotomic cyc) {
   return result;
 }
 
+cyclotomic prodIntCyc(int n, cyclotomic cyc) {
+  gmpq rat(n);
+  return prodRatCyc(rat, cyc);
+}
+
 cyclotomic minusCyc(cyclotomic cyc) {
   gmpq o(-1);
   return prodRatCyc(o, cyc);
@@ -449,7 +454,39 @@ cyclotomic eb(int n) {
   return result;
 }
 
-
+cyclotomic sqrtPositiveInteger(int n) {
+  Rcpp::Function f("R_factorise");
+  Rcpp::List fctrs = Rcpp::as<Rcpp::List>(f(n));
+  Rcpp::IntegerVector primes = fctrs["primes"];
+  Rcpp::IntegerVector powers = fctrs["k"];
+  int fact = 1;
+  int nn = 1;
+  int l = primes.size();
+  if(l != 0) {
+    for(int i = 0; i < l; i++) {
+      int prm = primes(i);
+      int pwr = powers(i);
+      fact = fact * intpow(prm, pwr / 2);
+      nn = nn * intpow(prm, pwr % 2);
+    }
+  }
+  cyclotomic out;
+  switch(nn % 4) {
+    case 0:
+      out = prodIntCyc(2*fact, sqrtPositiveInteger(nn / 4));
+      break;
+    case 1:
+      out = prodIntCyc(fact, sumCyc(prodIntCyc(2, eb(nn)), oneCyc));
+      break;
+    case 2:
+      out = prodIntCyc(fact, prodCyc(sqrt2, sqrtPositiveInteger(nn / 2)));
+      break;
+    case 3:
+      out = prodIntCyc(-fact, prodCyc(im, sumCyc(prodIntCyc(2, eb(nn)), oneCyc)));
+      break;
+  }
+  return out;
+}
 
 
 
@@ -473,7 +510,7 @@ void display(std::map<int, gmpq>& mp) {
 void test() {
   cyclotomic e4 = zeta(4);
   cyclotomic e9 = zeta(9);
-  cyclotomic cyc = eb(8); //powerCyc(prodCyc(e4, e9), 3);
+  cyclotomic cyc = sqrtPositiveInteger(6); //powerCyc(prodCyc(e4, e9), 3);
   Rcpp::Rcout << "Order: " << cyc.order << "\n";
   display(cyc.terms);
 }

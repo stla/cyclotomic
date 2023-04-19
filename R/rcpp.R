@@ -77,3 +77,9 @@ R_coprimes <- function(ord) {
   x <- seq(2L, length.out = ord - 2L)
   x[coprime(x, ord)]
 }
+
+#' @export
+#' @noRd
+R_factorise <- function(n) {
+  factorise(n)
+}

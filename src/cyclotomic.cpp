@@ -1,4 +1,3 @@
-// [[Rcpp::depends(BH)]]
 #include <Rcpp.h>
 #include <boost/multiprecision/gmp.hpp>
 typedef boost::multiprecision::mpq_rational                 gmpq;
@@ -144,3 +143,17 @@ void removeZeros(std::map<int, gmpq> mp) {
     }
   }
 }
+
+int gcdCyc(cyclotomic cyc) {
+  Rcpp::Function f("R_gcdList");
+  std::map<int, gmpq> trms = cyc.terms;
+  int l = trms.size();
+  Rcpp::IntegerVector x(l+1);
+  x(0) = cyc.order;
+  int i = 1;
+  for(const auto& item : trms) {
+    x(i++) = item.first;
+  }
+  return Rcpp::as<int>(f(x));
+}
+

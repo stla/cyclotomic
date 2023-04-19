@@ -64,7 +64,8 @@ std::vector<int> includeMods(int n, int q, int start) {
   return out;
 }
 
-std::vector<int> removeExps(int n, int p, int q) {
+// [[Rcpp::export]]
+std::vector<int> Rcpp_removeExps(int n, int p, int q) {
   int ndivq = n / q;
   std::vector<int> out(0);
   if(p == 2) {
@@ -188,4 +189,27 @@ std::optional<gmpq> equalCoefficients(cyclotomic cyc) {
     }
   }
   return firstcoef;
+}
+
+int intpow(int base, unsigned exp){
+  int result = 1;
+  while(exp){
+    if(exp & 1)
+      result *= base;
+    exp >>= 1;
+    base *= base;
+  }
+  return result;
+}
+
+void convertToBase(int n, std::map<int, gmpq> trms) {
+  if(n > 1) {
+    Rcpp::Function f("R_extraneousPowers");
+    Rcpp::IntegerMatrix epows = Rcpp::as<Rcpp::IntegerMatrix>(f(n));
+    int l = epows.nrow();
+    for(int i = l-1; i = 0; i--) {
+      Rcpp::IntegerVector pr = epows(i, Rcpp::_);
+      replace(n, pr(1), pr(2), trms);
+    }
+  }
 }

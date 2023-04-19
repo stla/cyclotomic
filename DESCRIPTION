@@ -39,6 +39,7 @@ Encoding: UTF-8
 RoxygenNote: 7.2.3
 Collate: 
     'Cyclotomic.R'
+    'RcppExports.R'
     'arithmetic.R'
     'conjugate.R'
     'imports.R'

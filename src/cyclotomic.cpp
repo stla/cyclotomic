@@ -427,9 +427,9 @@ cyclotomic powerCyc(cyclotomic cyc, int p){ // TODO: p < 0 - requires invCyc
 
 
 //// | sqrt stuff ////////
-//const cyclotomic zeta8 = zeta(8); impossible because of R_extraneousPowers not found!
-//const cyclotomic sqrt2 = sumCyc(zeta8, minusCyc(powerCyc(zeta8, 3)));
-//const cyclotomic im = zeta(4);
+const cyclotomic zeta8 = {8, {{1, gmpq(1)}}};
+const cyclotomic sqrt2 = {8, {{1, gmpq(1)}, {3, gmpq(-1)}}};
+const cyclotomic im = {4, {{1, gmpq(1)}}};
 
 cyclotomic eb(int n) {
   if(n == 1) {
@@ -438,7 +438,7 @@ cyclotomic eb(int n) {
   cyclotomic zetan = zeta(n);
   cyclotomic result = zetan;
   cyclotomic addme;
-  int l = (n - 1) / 2; // =0 si n=2
+  int l = (n - 1) / 2; // =0 si n=2 => pb dans R
   for(int k = 2; k <= l; k++) {
     addme = powerCyc(zetan, (k * k) % n);
     result = sumCyc(result, addme);

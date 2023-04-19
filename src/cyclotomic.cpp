@@ -384,6 +384,26 @@ cyclotomic prodCyc(cyclotomic cyc1, cyclotomic cyc2) {
   return mkCyclotomic(ord, trms);
 }
 
+cyclotomic fromInteger(int n) {
+  gmpq nrat(n);
+  return fromRational(nrat);
+}
+
+cyclotomic powerCyc(cyclotomic cyc, int p){
+  cyclotomic result = fromInteger(1);
+  if(p >= 0) {
+    while(p) {
+      if(p & 1) {
+        result = prodCyc(result, cyc);
+      }
+      p >>= 1;
+      cyc = prodCyc(cyc, cyc);
+    }
+    return result;
+  }
+  // if p < 0
+  return zeroCyc();
+}
 
 
 
@@ -412,7 +432,7 @@ void display(std::map<int, gmpq>& mp) {
 void test() {
   cyclotomic e4 = zeta(4);
   cyclotomic e9 = zeta(9);
-  cyclotomic cyc = prodCyc(e4, e9);
+  cyclotomic cyc = powerCyc(prodCyc(e4, e9), 3);
   Rcpp::Rcout << "Order: " << cyc.order << "\n";
   display(cyc.terms);
 }

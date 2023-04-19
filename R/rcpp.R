@@ -42,3 +42,11 @@ R_extraneousPowers <- function(n) {
   }, simplify = FALSE))
   x[!duplicated(x), , drop = FALSE]
 }
+
+R_squareFreeOddFactors <- function(n) {
+  fctr <- factorise(n)
+  primes <- fctr[["primes"]]
+  powers <- fctr[["k"]]
+  ok <- powers == 1L & primes != 2L
+  primes[ok]
+}

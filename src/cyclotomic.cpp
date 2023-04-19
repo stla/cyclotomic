@@ -247,3 +247,17 @@ cyclotomic tryRational(cyclotomic cyc) {
     return cyc;
   }
 }
+
+cyclotomic tryReduce(cyclotomic cyc) {
+  Rcpp::Function f("R_squareFreeOddFactors");
+  Rcpp::IntegerVector factors = Rcpp::as<Rcpp::IntegerVector>(f(cyc.order));
+  int l = factors.size();
+  if(l == 0) {
+    return cyc;
+  }
+  for(int i = 0; i < l; i++) {
+    cyc = reduceByPrime(factors(i), cyc);
+  }
+  return cyc;
+}
+

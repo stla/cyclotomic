@@ -3,6 +3,7 @@
 export(R_extraneousPowers)
 export(R_gcdList)
 export(R_phiNrpSqfree)
+export(R_scm)
 export(R_squareFreeOddFactors)
 export(asComplex)
 export(conjugate)

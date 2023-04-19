@@ -64,24 +64,30 @@ std::vector<int> includeMods(int n, int q, int start) {
   return out;
 }
 
+void append(std::vector<int>& v1, std::vector<int> v2) {
+  for(const auto& k : v2) {
+    v1.push_back(k);
+  }
+}
+
 // [[Rcpp::export]]
 std::vector<int> Rcpp_removeExps(int n, int p, int q) {
   int ndivq = n / q;
   std::vector<int> out(0);
   if(p == 2) {
     int x = q / 2;
-    out.push_back(ndivq * x);
+    append(out, includeMods(n, q, ndivq * x));
     while(x < q - 1) {
       x++;
-      out.push_back(ndivq * x);
+      append(out, includeMods(n, q, ndivq * x));
     }
   } else {
     int m = (q / p - 1) / 2;
     int x = -m;
-    out.push_back(ndivq * x);
+    append(out, includeMods(n, q, ndivq * x));
     while(x < m) {
       x++;
-      out.push_back(ndivq * x);
+      append(out, includeMods(n, q, ndivq * x));
     }
   }
   return out;
@@ -182,11 +188,12 @@ std::optional<gmpq> equalCoefficients(cyclotomic cyc) {
   }
   std::map<int, gmpq>::iterator it = trms.begin();
   gmpq firstcoef = it->second;
+  ++it;
   while(it != trms.end()) {
-    it++;
     if(it->second != firstcoef) {
       return std::nullopt;
     }
+    ++it;
   }
   return firstcoef;
 }
@@ -266,7 +273,7 @@ cyclotomic cyclotomic0(int ord, std::map<int, gmpq> trms) {
   cyclotomic cyc;
   cyc.order = ord;
   cyc.terms = trms;
-  return cyc;
+  return tryReduce(tryRational(gcdReduce(cyc)));
 }
 
 cyclotomic mkCyclotomic(int ord, std::map<int, gmpq> trms) {
@@ -306,8 +313,38 @@ std::map<int, gmpq> unionWithPlus(
   return mp1;
 }
 
+bool isZero(cyclotomic cyc) {
+  return cyc.terms.size() == 0;
+}
 
-
+cyclotomic sumCyc(cyclotomic cyc1, cyclotomic cyc2) {
+  if(isZero(cyc1)) {
+    return cyc2;
+  }
+  if(isZero(cyc2)) {
+    return cyc1;
+  }
+  int o1 = cyc1.order;
+  std::map<int, gmpq> trms1 = cyc1.terms;
+  int o2 = cyc2.order;
+  std::map<int, gmpq> trms2 = cyc2.terms;
+  Rcpp::Function scm("R_scm");
+  int ord = Rcpp::as<int>(scm(o1, o2));
+  int m1 = ord / o1;
+  int m2 = ord / o2;
+  std::map<int, gmpq> mp1;
+  for(const auto& item : trms1) {
+    int key = item.first;
+    mp1[m1 * key] = item.second;
+  }
+  std::map<int, gmpq> mp2;
+  for(const auto& item : trms2) {
+    int key = item.first;
+    mp2[m2 * key] = item.second;
+  }
+  std::map<int, gmpq> trms = unionWithPlus(mp1, mp2);
+  return mkCyclotomic(ord, trms);
+}
 
 
 
@@ -336,6 +373,9 @@ void display(std::map<int, gmpq>& mp) {
 
 // [[Rcpp::export]]
 void test() {
+  cyclotomic e4 = zeta(4);
   cyclotomic e9 = zeta(9);
-  display(e9.terms);
+  cyclotomic cyc = sumCyc(e4, e9);
+  Rcpp::Rcout << "Order: " << cyc.order << "\n";
+  display(cyc.terms);
 }

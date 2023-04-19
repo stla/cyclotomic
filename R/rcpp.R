@@ -58,3 +58,9 @@ R_squareFreeOddFactors <- function(n) {
   ok <- powers == 1L & primes != 2L
   primes[ok]
 }
+
+#' @export
+#' @noRd
+R_scm <- function(n1, n2) {
+  scm(n1, n2)
+}

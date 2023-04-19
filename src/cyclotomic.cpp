@@ -273,3 +273,18 @@ cyclotomic mkCyclotomic(int ord, std::map<int, gmpq> trms) {
   convertToBase(ord, trms);
   return cyclotomic0(ord, trms);
 }
+
+cyclotomic zeta(int n) {
+  std::map<int, gmpq> trms;
+  gmpq one(1);
+  if(n == 1) {
+    trms[0] = one;
+    cyclotomic cyc;
+    cyc.order = 1;
+    cyc.terms = trms;
+    return cyc;
+  }
+  trms[1] = one;
+  convertToBase(n, trms);
+  return cyclotomic0(n, trms);
+}

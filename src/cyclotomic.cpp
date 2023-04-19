@@ -173,3 +173,19 @@ cyclotomic gcdReduce(cyclotomic cyc) {
   out.terms = newtrms;
   return out;
 }
+
+std::optional<gmpq> equalCoefficients(cyclotomic cyc) {
+  std::map<int, gmpq> trms = cyc.terms;
+  if(trms.size() == 0) {
+    return std::nullopt;
+  }
+  std::map<int, gmpq>::iterator it = trms.begin();
+  gmpq firstcoef = it->second;
+  while(it != trms.end()) {
+    it++;
+    if(it->second != firstcoef) {
+      return std::nullopt;
+    }
+  }
+  return firstcoef;
+}

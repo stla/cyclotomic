@@ -261,3 +261,15 @@ cyclotomic tryReduce(cyclotomic cyc) {
   return cyc;
 }
 
+cyclotomic cyclotomic0(int ord, std::map<int, gmpq> trms) {
+  removeZeros(trms);
+  cyclotomic cyc;
+  cyc.order = ord;
+  cyc.terms = trms;
+  return cyc;
+}
+
+cyclotomic mkCyclotomic(int ord, std::map<int, gmpq> trms) {
+  convertToBase(ord, trms);
+  return cyclotomic0(ord, trms);
+}

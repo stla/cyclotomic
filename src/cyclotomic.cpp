@@ -2,6 +2,12 @@
 #include <boost/multiprecision/gmp.hpp>
 typedef boost::multiprecision::mpq_rational                 gmpq;
 
+void display(std::map<int, gmpq>& mp) {
+  for(const auto& it : mp) {
+    Rcpp::Rcout << "Key: " << it.first << ", value: " << it.second << "\n";
+  }
+}
+
 struct cyclotomic {
   int order;
   std::map<int, gmpq> terms;
@@ -43,7 +49,7 @@ void replace(int n, int p, int r, std::map<int, gmpq>& trms) {
     gmpq minusrat = -trms.at(r);
     trms.erase(r);
     std::vector<int> rpl = replacements(n, p, r);
-    for(auto& k : rpl) {
+    for(const auto& k : rpl) {
       insertWithPlus(trms, k, minusrat);
     }
   }
@@ -98,10 +104,12 @@ std::optional<gmpq> equalReplacements(int p, int r, cyclotomic cyc) {
   int ord = cyc.order;
   std::map<int, gmpq> trms = cyc.terms;
   std::vector<int> rpl = replacements(ord, p, r);
+  Rcpp::Rcout << "RPL[0]: " << rpl[0] << "\n";
   gmpq x1 = getOrZero(trms, rpl[0]);
   int l = rpl.size();
   gmpq x;
   for(int i = 1; i < l; i++) {
+    Rcpp::Rcout << "RPL[i]: " << rpl[i] << "\n";
     x = getOrZero(trms, rpl[i]);
     if(x != x1) {
       return std::nullopt;
@@ -113,14 +121,19 @@ std::optional<gmpq> equalReplacements(int p, int r, cyclotomic cyc) {
 cyclotomic reduceByPrime(int p, cyclotomic cyc) {
   int n = cyc.order;
   std::vector<gmpq> cfs(0);
+  Rcpp::Rcout << "equalReplacements 0\n";
   std::optional<gmpq> x = equalReplacements(p, 0, cyc);
   int r = p;
-  while(r < n - p && x) {
+  while(r <= n - p && x) {
+    Rcpp::Rcout << "r: " << r << "\n";
+    Rcpp::Rcout << "xxx: " << *x << "\n";
     cfs.push_back(-(*x));
+    Rcpp::Rcout << "equalReplacements r\n";
     x = equalReplacements(p, r, cyc);
     r += p;
   }
   if(x) {
+    Rcpp::Rcout << "x: " << *x << "\n";
     int ndivp = n / p;
     std::map<int, gmpq> trms;
     int i = 0;
@@ -260,11 +273,15 @@ cyclotomic tryReduce(cyclotomic cyc) {
   Rcpp::Function f("R_squareFreeOddFactors");
   Rcpp::IntegerVector factors = Rcpp::as<Rcpp::IntegerVector>(f(cyc.order));
   int l = factors.size();
+  Rcpp::Rcout << "l: " << l << "\n";
   if(l == 0) {
     return cyc;
   }
   for(int i = 0; i < l; i++) {
     cyc = reduceByPrime(factors(i), cyc);
+    Rcpp::Rcout << "ooooooooooooooooooooooooooo\n";
+    Rcpp::Rcout << "order: " << cyc.order << "\n";
+    display(cyc.terms);
   }
   return cyc;
 }
@@ -274,6 +291,10 @@ cyclotomic cyclotomic0(int ord, std::map<int, gmpq> trms) {
   cyclotomic cyc;
   cyc.order = ord;
   cyc.terms = trms;
+  // cyclotomic xx = tryRational(gcdReduce(cyc));
+  // Rcpp::Rcout << "****************************\n";
+  // Rcpp::Rcout << "order: " << xx.order << "\n";
+  // display(xx.terms);
   return tryReduce(tryRational(gcdReduce(cyc)));
 }
 
@@ -294,8 +315,11 @@ cyclotomic zeta(int n) {
   }
   trms[1] = one;
   convertToBase(n, trms);
+  display(trms);
   return cyclotomic0(n, trms);
 }
+
+//// | arithmetic ////////
 
 std::map<int, gmpq> unionWithPlus(
     std::map<int, gmpq> mp1, std::map<int, gmpq> mp2
@@ -500,17 +524,13 @@ cyclotomic sqrtPositiveInteger(int n) {
 
 
 
-void display(std::map<int, gmpq>& mp) {
-  for(auto& it : mp) {
-    Rcpp::Rcout << "Key: " << it.first << ", value: " << it.second << "\n";
-  }
-}
 
 // [[Rcpp::export]]
 void test() {
-  cyclotomic e4 = zeta(4);
-  cyclotomic e9 = zeta(9);
-  cyclotomic cyc = sqrtPositiveInteger(6); //powerCyc(prodCyc(e4, e9), 3);
+  //cyclotomic e4 = zeta(4);
+  //cyclotomic e9 = zeta(9);
+  cyclotomic cyc = sqrtPositiveInteger(60); //powerCyc(prodCyc(e4, e9), 3);
+  Rcpp::Rcout << "----------------------------\n";
   Rcpp::Rcout << "Order: " << cyc.order << "\n";
   display(cyc.terms);
 }

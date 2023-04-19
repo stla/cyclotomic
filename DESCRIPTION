@@ -30,7 +30,11 @@ Imports:
     maybe,
     methods,
     primes,
+    Rcpp,
     VeryLargeIntegers
+LinkingTo:
+    BH,
+    Rcpp
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 Collate: 
@@ -43,6 +47,7 @@ Collate:
     'mkCyclotomic.R'
     'polar.R'
     'rational.R'
+    'rcpp.R'
     'showCyclotomic.R'
     'sqrt.R'
     'trigonometry.R'

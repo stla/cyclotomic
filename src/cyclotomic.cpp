@@ -44,14 +44,13 @@ void replace(int n, int p, int r, std::map<int, gmpq> trms) {
     gmpq minusrat = -trms.at(r);
     trms.erase(r);
     std::vector<int> rpl = replacements(n, p, r);
-    int l = rpl.size();
     for(int k : rpl) {
       insertWithPlus(trms, k, minusrat);
     }
   }
 }
 
-std::vector<int> includeMods(n, q, start) {
+std::vector<int> includeMods(int n, int q, int start) {
   std::vector<int> out = {start};
   int x = start - q;
   while(x >= 0) {
@@ -120,7 +119,7 @@ cyclotomic reduceByPrime(int p, cyclotomic cyc) {
     int i = 0;
     int l = cfs.size();
     while(i < ndivp && i < l) {
-      gmp coef = cfs[i];
+      gmpq coef = cfs[i];
       if(coef != 0) {
         trms[i] = coef;
       }

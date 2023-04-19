@@ -53,17 +53,6 @@ prodCyc <- function(cyc1, cyc2) {
       insertWith(`+`, mp, k, c1*c2)
     }
   }
-
-  print(ord)
-  print(mp) ####################################################################
-  cyc <- new(
-    "cyclotomic",
-    order = ord,
-    terms = mp
-  )
-  print(tryRational(gcdReduce(cyc))) # ok ; donc faute dans tryReduce
-
-  print(convertToBase(ord, mp)) # ok
   mkCyclotomic(ord, mp)
 }
 

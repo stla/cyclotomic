@@ -172,9 +172,13 @@ convertToBase <- function(n, trms) {
 }
 
 equalReplacements <- function(p, r, cyc) {
+  # print(replacements(cyc@order, p, r)) #########################################
+  # cat("---\n")
   xs <- vapply(replacements(cyc@order, p, r), function(k) {
     as.character(cyc@terms$get(k, default = as.bigq(0L)))
   }, FUN.VALUE = character(1L))
+  cat("xs: \n")
+  print(xs)
   x1 <- xs[1L]
   for(x in xs[-1L]) {
     if(x != x1) {
@@ -188,17 +192,25 @@ reduceByPrime <- function(p, cyc) { # p: integer; cyc: cyclotomic; output: cyclo
   n <- cyc@order
   cfs <- as.bigq(integer(0L))
   x <- equalReplacements(p, 0L, cyc)
+  if(!is.null(x)) {
+    rat <- as.bigq(x)
+    cfs <- c(cfs, -rat)
+  }
   r <- p
   nminusp <- n - p
   while(r <= nminusp && !is.null(x)) {
-    rat <- as.bigq(x)
-    cfs <- c(cfs, -rat)
     x <- equalReplacements(p, r, cyc)
+    if(!is.null(x)) {
+      rat <- as.bigq(x)
+      cfs <- c(cfs, -rat)
+    }
     r <- r + p
   }
   if(is.null(x)) {
     return(cyc)
   }
+  # cat("x: ", as.character(x))
+  # cat("\n")
   ndivp <- as.integer(n %/% p)
   trms <- intmap$new()
   ii <- 0L
@@ -287,7 +299,9 @@ tryReduce <- function(cyc) {
   if(length(squareFreeOddFactors) == 0L) {
     return(cyc)
   }
-  Reduce(reduceByPrime, rev(squareFreeOddFactors), init = cyc, right = TRUE)
+  # cat("factors:\n")
+  # print(squareFreeOddFactors)
+  Reduce(reduceByPrime, squareFreeOddFactors, init = cyc, right = TRUE)
 }
 
 cyclotomic <- function(ord, trms) {

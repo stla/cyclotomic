@@ -48,7 +48,7 @@ void replace(int n, int p, int r, std::map<int, gmpq>& trms) {
   if(trms.contains(r)) {
     gmpq minusrat = -trms.at(r);
     trms.erase(r);
-    std::vector<int> rpl = replacements(n, p, r);
+    std::vector<int> rpl = replacements(n, p, r); // reverse ?
     for(const auto& k : rpl) {
       insertWithPlus(trms, k, minusrat);
     }
@@ -228,7 +228,7 @@ void convertToBase(int n, std::map<int, gmpq>& trms) {
     Rcpp::Function f("R_extraneousPowers");
     Rcpp::IntegerMatrix epows = Rcpp::as<Rcpp::IntegerMatrix>(f(n));
     int l = epows.nrow();
-    for(int i = l-1; i >= 0; i--) {
+    for(int i = 0; i <l; i++) {
       Rcpp::IntegerVector pr = epows(i, Rcpp::_);
       replace(n, pr(0), pr(1), trms);
     }
@@ -277,7 +277,7 @@ cyclotomic tryReduce(cyclotomic cyc) {
   if(l == 0) {
     return cyc;
   }
-  for(int i = 0; i < l; i++) {
+  for(int i = l-1; i >= 0; i--) {
     cyc = reduceByPrime(factors(i), cyc);
     Rcpp::Rcout << "ooooooooooooooooooooooooooo\n";
     Rcpp::Rcout << "order: " << cyc.order << "\n";
@@ -528,8 +528,8 @@ cyclotomic sqrtPositiveInteger(int n) {
 // [[Rcpp::export]]
 void test() {
   //cyclotomic e4 = zeta(4);
-  //cyclotomic e9 = zeta(9);
-  cyclotomic cyc = sqrtPositiveInteger(60); //powerCyc(prodCyc(e4, e9), 3);
+  cyclotomic s31 = sqrtPositiveInteger(10);
+  cyclotomic cyc = powerCyc(eb(15), 9); //powerCyc(prodCyc(e4, e9), 3);
   Rcpp::Rcout << "----------------------------\n";
   Rcpp::Rcout << "Order: " << cyc.order << "\n";
   display(cyc.terms);

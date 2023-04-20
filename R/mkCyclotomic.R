@@ -148,22 +148,16 @@ removeExps <- function(n, p, q) {
   out
 }
 
-extraneousPowers <- function(n) { # souvent appelé avec le même n -> memoize ?
-#  cat("---------------------------\n")
+extraneousPowers <- function(n) {
   pairs <- pqPairs(n)
-#  cat("pairs:\n")
-  # print(pairs)
   x <- do.call(rbind, apply(pairs, 2L, function(pq) {
     p <- pq[1L]
     q <- pq[2L]
     r <- removeExps(n, p, q)
-    # cat("p: ", p, "\n")
-    # print(r)
     cbind(p, r)
   }, simplify = FALSE))
-#  cat("___________________________\n")
   return(x)
-  x[!duplicated(x), , drop = FALSE] # ça revient au même de faire unique(r)
+  #x[!duplicated(x), , drop = FALSE] # ça revient au même de faire unique(r)
 }
 
 convertToBase <- function(n, trms) {
@@ -285,14 +279,16 @@ tryRational <- function(cyc) {
   }
 }
 
+squareFreeOddFactors <- function(n) {
+  fctr <- factorise(n)
+  primes <- fctr[["primes"]]
+  powers <- fctr[["k"]]
+  primes[powers == 1L & primes != 2L]
+}
+
 tryReduce <- function(cyc) {
-  # fctr <- factorise(cyc@order)
-  # primes <- fctr[["primes"]]
-  # powers <- fctr[["k"]]
-  # ok <- powers == 1L & primes != 2L
-  # squareFreeOddFactors <- primes[ok]
-  squareFreeOddFactors <- R_squareFreeOddFactors(cyc@order)
-  if(length(squareFreeOddFactors) == 0L) {
+  sfoFactors <- squareFreeOddFactors(cyc@order)
+  if(length(sfoFactors) == 0L) {
     return(cyc)
   }
   Reduce(reduceByPrime, squareFreeOddFactors, init = cyc, right = TRUE)

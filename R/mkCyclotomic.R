@@ -291,7 +291,7 @@ tryReduce <- function(cyc) {
   if(length(sfoFactors) == 0L) {
     return(cyc)
   }
-  Reduce(reduceByPrime, squareFreeOddFactors, init = cyc, right = TRUE)
+  Reduce(reduceByPrime, sfoFactors, init = cyc, right = TRUE)
 }
 
 cyclotomic <- function(ord, trms) {

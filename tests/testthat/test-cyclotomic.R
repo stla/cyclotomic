@@ -43,6 +43,13 @@ test_that("ratio square roots", {
   )
 })
 
+test_that("golden ratio as polynomial root", {
+  phi <- (1 + cycSqrt(5)) / 2
+  expect_true(
+    phi^2 - phi - 1 == 0
+  )
+})
+
 test_that("decomposition real/imaginary parts", {
   im <- zeta(4)
   z <- zeta(9)

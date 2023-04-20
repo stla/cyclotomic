@@ -20,7 +20,7 @@ void insertWithPlus(std::map<int, gmpq>& mp, int k, gmpq v) {
   mp[k] = v;
 }
 
-gmpq getOrZero(std::map<int, gmpq> mp, int k) {
+gmpq getOrZero(const std::map<int, gmpq>& mp, int k) {
   if(mp.contains(k)) {
     return mp.at(k);
   } else {
@@ -70,7 +70,7 @@ std::vector<int> includeMods(int n, int q, int start) {
   return out;
 }
 
-void append(std::vector<int>& v1, std::vector<int> v2) {
+void append(std::vector<int>& v1, const std::vector<int>& v2) {
   v1.reserve(v1.size() + v2.size());
   for(const auto& k : v2) {
     v1.emplace_back(k);
@@ -100,7 +100,7 @@ std::vector<int> Rcpp_removeExps(int n, int p, int q) {
   return out;
 }
 
-std::optional<gmpq> equalReplacements(int p, int r, cyclotomic cyc) {
+std::optional<gmpq> equalReplacements(int p, int r, const cyclotomic& cyc) {
   int ord = cyc.order;
   std::map<int, gmpq> trms = cyc.terms;
   std::vector<int> rpl = replacements(ord, p, r);
@@ -116,7 +116,7 @@ std::optional<gmpq> equalReplacements(int p, int r, cyclotomic cyc) {
   return x1;
 }
 
-cyclotomic reduceByPrime(int p, cyclotomic cyc) {
+cyclotomic reduceByPrime(int p, const cyclotomic& cyc) {
   int n = cyc.order;
   std::vector<gmpq> cfs(0);
   int r = 0;
@@ -158,7 +158,7 @@ void removeZeros(std::map<int, gmpq>& mp) {
   }
 }
 
-int gcdCyc(cyclotomic cyc) {
+int gcdCyc(const cyclotomic& cyc) {
   Rcpp::Function f("R_gcdList");
   std::map<int, gmpq> trms = cyc.terms;
   int l = trms.size();
@@ -171,7 +171,7 @@ int gcdCyc(cyclotomic cyc) {
   return Rcpp::as<int>(f(x));
 }
 
-cyclotomic gcdReduce(cyclotomic cyc) {
+cyclotomic gcdReduce(const cyclotomic& cyc) {
   int d = gcdCyc(cyc);
   if(d == 1) {
     return cyc;
@@ -188,7 +188,7 @@ cyclotomic gcdReduce(cyclotomic cyc) {
   return out;
 }
 
-std::optional<gmpq> equalCoefficients(cyclotomic cyc) {
+std::optional<gmpq> equalCoefficients(const cyclotomic& cyc) {
   std::map<int, gmpq> trms = cyc.terms;
   if(trms.size() == 0) {
     return std::nullopt;
@@ -239,7 +239,7 @@ cyclotomic fromRational(gmpq rat) {
   return cyc;
 }
 
-cyclotomic tryRational(cyclotomic cyc) {
+cyclotomic tryRational(const cyclotomic& cyc) {
   Rcpp::Function f("R_phiNrpSqfree");
   Rcpp::List pns = Rcpp::as<Rcpp::List>(f(cyc.order));
   int phi     = Rcpp::as<int>(pns["phi"]);
@@ -283,7 +283,7 @@ cyclotomic cyclotomic0(int ord, std::map<int, gmpq> trms) {
   return tryReduce(tryRational(gcdReduce(cyc)));
 }
 
-cyclotomic mkCyclotomic(int ord, std::map<int, gmpq> trms) {
+cyclotomic mkCyclotomic(int ord, std::map<int, gmpq>& trms) {
   convertToBase(ord, trms);
   return cyclotomic0(ord, trms);
 }
@@ -322,11 +322,11 @@ std::map<int, gmpq> unionWithPlus(
   return mp1;
 }
 
-bool isZero(cyclotomic cyc) {
+bool isZero(const cyclotomic& cyc) {
   return cyc.terms.size() == 0;
 }
 
-cyclotomic sumCyc(cyclotomic cyc1, cyclotomic cyc2) {
+cyclotomic sumCyc(const cyclotomic& cyc1, const cyclotomic& cyc2) {
   if(isZero(cyc1)) {
     return cyc2;
   }
@@ -364,7 +364,7 @@ const cyclotomic zeroCyc = {1, {}};
 //   return cyc;
 // }
 
-cyclotomic prodCyc(cyclotomic cyc1, cyclotomic cyc2) {
+cyclotomic prodCyc(const cyclotomic& cyc1, const cyclotomic& cyc2) {
   if(isZero(cyc1)) {
     return zeroCyc;
   }
@@ -398,7 +398,7 @@ cyclotomic fromInteger(int n) {
   return fromRational(nrat);
 }
 
-cyclotomic prodRatCyc(gmpq rat, cyclotomic cyc) {
+cyclotomic prodRatCyc(gmpq rat, const cyclotomic& cyc) {
   if(rat == 0) {
     return zeroCyc;
   }
@@ -413,7 +413,7 @@ cyclotomic prodRatCyc(gmpq rat, cyclotomic cyc) {
   return result;
 }
 
-cyclotomic prodIntCyc(int n, cyclotomic cyc) {
+cyclotomic prodIntCyc(int n, const cyclotomic& cyc) {
   gmpq rat(n);
   return prodRatCyc(rat, cyc);
 }

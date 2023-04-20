@@ -149,14 +149,21 @@ removeExps <- function(n, p, q) {
 }
 
 extraneousPowers <- function(n) {
+#  cat("---------------------------\n")
   pairs <- pqPairs(n)
+#  cat("pairs:\n")
+  # print(pairs)
   x <- do.call(rbind, apply(pairs, 2L, function(pq) {
     p <- pq[1L]
     q <- pq[2L]
     r <- removeExps(n, p, q)
+    # cat("p: ", p, "\n")
+    # print(r)
     cbind(p, r)
   }, simplify = FALSE))
-  x[!duplicated(x), , drop = FALSE]
+#  cat("___________________________\n")
+  return(x)
+  x[!duplicated(x), , drop = FALSE] # ça revient au même de faire unique(r)
 }
 
 convertToBase <- function(n, trms) {

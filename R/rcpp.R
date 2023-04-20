@@ -46,6 +46,7 @@ R_extraneousPowers <- function(n) {
     r <- Rcpp_removeExps(n, p, q)
     cbind(p, r)
   }, simplify = FALSE))
+  return(x)
   x[!duplicated(x), , drop = FALSE]
 }
 

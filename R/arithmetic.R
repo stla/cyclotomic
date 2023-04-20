@@ -62,15 +62,17 @@ powerCyc <- function(cyc, n) {
   if(n == 0L) {
     return(fromInteger(1L))
   }
-  if(n == 1L) {
-    return(cyc)
-  }
-  if(n > 0L) {
-    out <- cyc
-    for(. in 2L:n) {
-      out <- prodCyc(out, cyc)
+  if(n >= 1L) {
+    n <- n - 1L
+    result <- cyc
+    while(n) {
+      if(bitwAnd(n, 1L)) {
+        result <- prodCyc(result, cyc)
+      }
+      n <- bitwShiftR(n, 1L)
+      cyc <- prodCyc(cyc, cyc)
     }
-    return(out)
+    return(result)
   }
   # if n < 0:
   powerCyc(invCyc(cyc), -n)

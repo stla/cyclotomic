@@ -75,7 +75,7 @@ factorise <- function(n) {
   if(n == 1L) {
     return(list(primes = integer(0L), k = integer(0L)))
   }
-  fctrs <- factors(as.vli(n), iter = 100L, output = "list")
+  fctrs <- factors(as.vli(n), iter = 10L, output = "list")
   if(is.vli(fctrs)) { # workaround: fctrs is not a list if only one factor
     fctrs <- list(fctrs)
   }
@@ -286,11 +286,12 @@ tryRational <- function(cyc) {
 }
 
 tryReduce <- function(cyc) {
-  fctr <- factorise(cyc@order)
-  primes <- fctr[["primes"]]
-  powers <- fctr[["k"]]
-  ok <- powers == 1L & primes != 2L
-  squareFreeOddFactors <- primes[ok]
+  # fctr <- factorise(cyc@order)
+  # primes <- fctr[["primes"]]
+  # powers <- fctr[["k"]]
+  # ok <- powers == 1L & primes != 2L
+  # squareFreeOddFactors <- primes[ok]
+  squareFreeOddFactors <- R_squareFreeOddFactors(cyc@order)
   if(length(squareFreeOddFactors) == 0L) {
     return(cyc)
   }

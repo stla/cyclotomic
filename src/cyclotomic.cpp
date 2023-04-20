@@ -276,7 +276,7 @@ cyclotomic tryReduce(cyclotomic cyc) {
 }
 
 cyclotomic cyclotomic0(int ord, std::map<int, gmpq> trms) {
-  removeZeros(trms); // useless ?
+  removeZeros(trms); // useless ? no!
   cyclotomic cyc;
   cyc.order = ord;
   cyc.terms = trms;

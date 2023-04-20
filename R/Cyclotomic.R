@@ -256,7 +256,8 @@ setMethod(
       "==" = isZeroCyc(e1 - e2),
       "!=" = !isZeroCyc(e1 - e2),
       stop(gettextf(
-        "Comparison operator %s not defined for cyclotomic objects.", dQuote(.Generic)
+        "Comparison operator %s not defined for cyclotomic objects.",
+        dQuote(.Generic)
       ))
     )
   }

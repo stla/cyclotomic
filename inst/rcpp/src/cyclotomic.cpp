@@ -356,13 +356,6 @@ cyclotomic sumCyc(const cyclotomic& cyc1, const cyclotomic& cyc2) {
 }
 
 const cyclotomic zeroCyc = {1, {}};
-// cyclotomic zeroCyc() {
-//   std::map<int, gmpq> trms;
-//   cyclotomic cyc;
-//   cyc.order = 1;
-//   cyc.terms = trms;
-//   return cyc;
-// }
 
 cyclotomic prodCyc(const cyclotomic& cyc1, const cyclotomic& cyc2) {
   if(isZero(cyc1)) {
@@ -454,7 +447,7 @@ cyclotomic eb(int n) {
   cyclotomic zetan = zeta(n);
   cyclotomic result = zetan;
   cyclotomic addme;
-  int l = (n - 1) / 2; // =0 si n=2 => pb dans R
+  int l = (n - 1) / 2; // =0 si n=2 => pb dans R - NO because n is always odd
   for(int k = 2; k <= l; k++) {
     addme = powerCyc(zetan, (k * k) % n);
     result = sumCyc(result, addme);

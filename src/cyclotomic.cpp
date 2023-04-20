@@ -242,9 +242,9 @@ cyclotomic fromRational(gmpq rat) {
 cyclotomic tryRational(const cyclotomic& cyc) {
   Rcpp::Function f("R_phiNrpSqfree");
   Rcpp::List pns = Rcpp::as<Rcpp::List>(f(cyc.order));
-  int phi     = Rcpp::as<int>(pns["phi"]);
-  int nrp     = Rcpp::as<int>(pns["nrp"]);
-  bool sqfree = Rcpp::as<bool>(pns["sqfree"]);
+  int phi     = pns["phi"];
+  int nrp     = pns["nrp"];
+  bool sqfree = pns["sqfree"];
   if(sqfree && cyc.terms.size() == phi) {
     std::optional<gmpq> mayberat = equalCoefficients(cyc);
     if(mayberat) {
@@ -276,7 +276,7 @@ cyclotomic tryReduce(cyclotomic cyc) {
 }
 
 cyclotomic cyclotomic0(int ord, std::map<int, gmpq> trms) {
-  removeZeros(trms);
+  removeZeros(trms); // useless ?
   cyclotomic cyc;
   cyc.order = ord;
   cyc.terms = trms;

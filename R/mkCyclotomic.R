@@ -148,7 +148,7 @@ removeExps <- function(n, p, q) {
   out
 }
 
-extraneousPowers <- function(n) {
+extraneousPowers <- function(n) { # souvent appelé avec le même n -> memoize ?
 #  cat("---------------------------\n")
   pairs <- pqPairs(n)
 #  cat("pairs:\n")

@@ -28,6 +28,7 @@ Imports:
     intmap,
     gmp,
     maybe,
+    memoise,
     methods,
     primes,
     Rcpp,
@@ -52,6 +53,7 @@ Collate:
     'showCyclotomic.R'
     'sqrt.R'
     'trigonometry.R'
+    'zzz.R'
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

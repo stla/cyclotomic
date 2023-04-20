@@ -20,7 +20,7 @@ R_phiNrpSqfree <- function(n) {
       "sqfree" = TRUE
     ))
   }
-  fctrs <- factors(as.vli(n), iter = 100L, output = "list")
+  fctrs <- factors(as.vli(n), iter = 10L, output = "list")
   if(is.vli(fctrs)) { # workaround: fctrs is not a list if only one factor
     fctrs <- list(fctrs)
   }

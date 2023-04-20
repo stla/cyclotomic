@@ -13,7 +13,7 @@ isZeroCyc <- function(cyc) {
 
 ## | one as a cyclotomic number ####
 oneCyc <- function() {
-  new("cyclotomic", order = "1", terms = intmap$new(0L, as.bigq(1L)))
+  new("cyclotomic", order = 1L, terms = intmap$new(0L, list(as.bigq(1L))))
 }
 
 ## | sum of two cyclotomic numbers ####

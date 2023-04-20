@@ -1,4 +1,4 @@
-eb <- function(n) {
+eb <- function(n) { # n is always odd
   if(n == 1L) {
     return(zeroCyc())
   }
@@ -8,6 +8,17 @@ eb <- function(n) {
     powerCyc(en, (k*k) %% n)
   })
   Reduce(sumCyc, toadd)
+}
+
+zeta4 <- function() {
+  new("cyclotomic", order = 4L, terms = intmap$new(1L, list(as.bigq(1L))))
+}
+
+sqrt2 <- function() {
+  new(
+    "cyclotomic", order = 8L,
+    terms = intmap$new(c(1L, 3L), list(as.bigq(1L), as.bigq(-1L)))
+  )
 }
 
 sqrtPositiveInteger <- function(n) {
@@ -23,13 +34,11 @@ sqrtPositiveInteger <- function(n) {
   }
   switch(
     nn %% 4L,
-    "1" = prodIntCyc(fact, sumCyc(prodIntCyc(2L, eb(nn)), fromInteger(1L))),
-    "2" = prodIntCyc(fact,
-      (zeta(8L) - zeta(8L)^3L) * sqrtPositiveInteger(nn %/% 2L)
-    ),
+    "1" = prodIntCyc(fact, sumCyc(prodIntCyc(2L, eb(nn)), oneCyc())),
+    "2" = prodIntCyc(fact, sqrt2() * sqrtPositiveInteger(nn %/% 2L)),
     "3" = prodIntCyc(
       -fact,
-      prodCyc(zeta(4L), sumCyc(prodIntCyc(2L, eb(nn)), fromInteger(1L)))
+      prodCyc(zeta4(), sumCyc(prodIntCyc(2L, eb(nn)), oneCyc()))
     ),
     "0" = prodIntCyc(2L*fact, sqrtPositiveInteger(nn %/% 4L))
   )

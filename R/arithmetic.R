@@ -11,6 +11,11 @@ isZeroCyc <- function(cyc) {
   cyc@terms$size() == 0L
 }
 
+## | one as a cyclotomic number ####
+oneCyc <- function() {
+  new("cyclotomic", order = "1", terms = intmap$new(0L, as.bigq(1L)))
+}
+
 ## | sum of two cyclotomic numbers ####
 sumCyc <- function(cyc1, cyc2) {
   if(isZeroCyc(cyc1)) return(cyc2)
@@ -44,12 +49,10 @@ prodCyc <- function(cyc1, cyc2) {
   keys2 <- trms2$keys()
   mp <- intmap$new()
   for(k1 in keys1) {
-    e1 <- k1
     c1 <- trms1$get(k1)
     for(k2 in keys2) {
-      e2 <- k2
       c2 <- trms2$get(k2)
-      k <- (m1*e1 + m2*e2) %% ord
+      k <- (m1*k1 + m2*k2) %% ord
       insertWith(`+`, mp, k, c1*c2)
     }
   }
@@ -91,6 +94,11 @@ prodRatCyc <- function(rat, cyc) {
   }
 }
 
+## | product integer and cyclotomic ####
+prodIntCyc <- function(n, cyc) {
+  prodRatCyc(as.bigq(n), cyc)
+}
+
 ## | opposite of a cyclotomic number ####
 minusCyc <- function(cyc) {
   prodRatCyc(as.bigq(-1L), cyc)
@@ -118,7 +126,7 @@ productOfGaloisConjugates <- function(cyc) {
   ord <- cyc@order
   if(ord <= 2L) return(NULL)
   x <- seq(2L, length.out = ord - 2L)
-  coprimes <- as.list(x[coprime(x, ord)])
+  coprimes <- x[coprime(x, ord)]
   tomultiply <- lapply(coprimes, function(j) {
     multiplyExponents(j, cyc)
   })

@@ -24,6 +24,12 @@ test_that("convert to complex", {
   )
 })
 
+test_that("square root", {
+  expect_true(
+    cycSqrt(60)^2 == 60
+  )
+})
+
 test_that("product square roots", {
   expect_true(
     cycSqrt(3) * cycSqrt(6) == cycSqrt(18)

@@ -139,8 +139,8 @@ cyclotomic_arith_gmp <- function(e1, e2) {
     .Generic,
     "+" = e1 + as.cyclotomic(e2),
     "-" = e1 - as.cyclotomic(e2),
-    "*" = e1 * as.cyclotomic(e2),
-    "/" = e1 / as.cyclotomic(e2),
+    "*" = prodRatCyc(e2, e1),
+    "/" = prodRatCyc(1L/e2, e1),
     stop(gettextf(
       "Binary operator %s not defined for these two objects.", dQuote(.Generic)
     ))
@@ -166,7 +166,7 @@ gmp_arith_cyclotomic <- function(e1, e2) {
     .Generic,
     "+" = as.cyclotomic(e1) + e2,
     "-" = as.cyclotomic(e1) - e2,
-    "*" = as.cyclotomic(e1) * e2, # could also use prodRatCyc
+    "*" = prodRatCyc(e1, e2),
     "/" = as.cyclotomic(e1) / e2,
     stop(gettextf(
       "Binary operator %s not defined for these two objects.", dQuote(.Generic)

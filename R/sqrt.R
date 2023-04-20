@@ -1,6 +1,6 @@
 eb <- function(n) {
   if(n == 1L) {
-    return(0L)
+    return(zeroCyc())
   }
   en <- zeta(n)
   rng <- 1L:((n-1L) %/% 2L)
@@ -23,11 +23,15 @@ sqrtPositiveInteger <- function(n) {
   }
   switch(
     nn %% 4L,
-    "1" = fromInteger(fact) * (2L * eb(nn) + 1L),
-    "2" = fromInteger(fact) *
-      (zeta(8L) - zeta(8L)^3L) * sqrtPositiveInteger(nn %/% 2L),
-    "3" = fromInteger(-fact) * zeta(4L) * (2L * eb(nn) + 1L),
-    "0" = fromInteger(2L*fact) * sqrtPositiveInteger(nn %/% 4L)
+    "1" = prodIntCyc(fact, sumCyc(prodIntCyc(2L, eb(nn)), fromInteger(1L))),
+    "2" = prodIntCyc(fact,
+      (zeta(8L) - zeta(8L)^3L) * sqrtPositiveInteger(nn %/% 2L)
+    ),
+    "3" = prodIntCyc(
+      -fact,
+      prodCyc(zeta(4L), sumCyc(prodIntCyc(2L, eb(nn)), fromInteger(1L)))
+    ),
+    "0" = prodIntCyc(2L*fact, sqrtPositiveInteger(nn %/% 4L))
   )
 }
 

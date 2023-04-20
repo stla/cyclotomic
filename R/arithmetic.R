@@ -3,7 +3,7 @@ NULL
 
 ## | the zero cyclotomic number ####
 zeroCyc <- function() {
-  new("cyclotomic", order = "1", terms = intmap$new())
+  new("cyclotomic", order = 1L, terms = intmap$new())
 }
 
 ## | check if it's the zero cyclotomic number ####

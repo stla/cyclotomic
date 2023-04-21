@@ -152,8 +152,14 @@ cyclotomic_arith_numeric <- function(e1, e2) {
     .Generic,
     "+" = e1 + as.cyclotomic(e2),
     "-" = e1 - as.cyclotomic(e2),
-    "*" = e1 * as.cyclotomic(e2),
-    "/" = e1 / as.cyclotomic(e2),
+    "*" = {
+      stopifnot(isInteger(e2))
+      prodIntCyc(as.integer(e2), e1)
+    },
+    "/" = {
+      stopifnot(isInteger(e2))
+      prodRatCyc(as.bigq(1L, e2), e1)
+    },
     "^" = powerCyc(e1, e2),
     stop(gettextf(
       "Binary operator %s not defined for these two objects.", dQuote(.Generic)
@@ -179,7 +185,10 @@ numeric_arith_cyclotomic <- function(e1, e2) {
     .Generic,
     "+" = as.cyclotomic(e1) + e2,
     "-" = as.cyclotomic(e1) - e2,
-    "*" = as.cyclotomic(e1) * e2,
+    "*" = {
+      stopifnot(isInteger(e1))
+      prodIntCyc(as.integer(e1), e2)
+    },
     "/" = as.cyclotomic(e1) / e2,
     stop(gettextf(
       "Binary operator %s not defined for these two objects.", dQuote(.Generic)

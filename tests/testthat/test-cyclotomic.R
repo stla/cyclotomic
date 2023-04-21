@@ -76,3 +76,9 @@ test_that("trigonometry", {
     imaginaryPart(z) == sinDeg(-30)
   )
 })
+
+test_that("negative power", {
+  expect_true(
+    1 / zeta(9)^2 == zeta(9)^(-2)
+  )
+})

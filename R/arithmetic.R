@@ -38,6 +38,8 @@ sumCyc <- function(cyc1, cyc2) {
 
 ## | product of two cyclotomic numbers ####
 prodCyc <- function(cyc1, cyc2) {
+  if(isZeroCyc(cyc1)) return(zeroCyc())
+  if(isZeroCyc(cyc2)) return(zeroCyc())
   o1    <- cyc1@order
   trms1 <- cyc1@terms
   o2    <- cyc2@order

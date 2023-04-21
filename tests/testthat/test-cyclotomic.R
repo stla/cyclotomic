@@ -4,6 +4,12 @@ test_that("e(45)^5 == e(9)", {
   )
 })
 
+test_that("opposite", {
+  expect_true(
+    0 - zeta(14) == -zeta(14)
+  )
+})
+
 test_that("is Gaussian?", {
   im <- zeta(4)
   a <- as.cyclotomic(5)

@@ -1,7 +1,7 @@
 Type: Package
 Package: cyclotomic
 Title: The Field of Cyclotomic Numbers
-Version: 1.0.0.9000
+Version: 1.1.0
 Authors@R: c(
     person("Stéphane", "Laurent", , "laurent_step@outlook.fr", role = c("aut", "cre")),
     person("Scott N.", "Walck", role = "cph",

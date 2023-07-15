@@ -83,3 +83,28 @@ cycSqrt <- function(x) {
     stop("Invalid argument `x`.")
   }
 }
+
+
+#' @title Roots of quadratic polynomial
+#' @description Roots of a polynomial of degree 2 as cyclotomic numbers.
+#'
+#' @param a,b,c the coefficients of the polynomial
+#'
+#' @return A list of two cyclotomic numbers, the roots of the polynomial
+#'   \ifelse{html}{\out{ax<sup>2</sup> + bx +c}}{\eqn{ax^2 + bx +c}{ax^2 + bx +c}}.
+#' @export
+#' @importFrom gmp as.bigq
+#' @examples
+#' library(cyclotomic)
+#' quadraticRoots(a = 1, b = 2, c = -1)
+quadraticRoots <- function(a, b, c) {
+  a <- as.bigq(a)
+  b <- as.bigq(b)
+  c <- as.bigq(c)
+  Delta <- b*b - 4*a*c
+  sqrtDelta <- sqrtRational(Delta)
+  list(
+    (-b + sqrtDelta) / (2L*a),
+    (-b - sqrtDelta) / (2L*a)
+  )
+}

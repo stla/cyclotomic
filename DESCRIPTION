@@ -1,7 +1,7 @@
 Type: Package
 Package: cyclotomic
 Title: The Field of Cyclotomic Numbers
-Version: 1.2.0
+Version: 1.3.0
 Authors@R: c(
     person("Stéphane", "Laurent", , "laurent_step@outlook.fr", role = c("aut", "cre")),
     person("Scott N.", "Walck", role = "cph",
@@ -30,7 +30,7 @@ Imports:
     maybe,
     memoise,
     methods,
-    primes,
+    numbers,
     VeryLargeIntegers
 Encoding: UTF-8
 RoxygenNote: 7.2.3

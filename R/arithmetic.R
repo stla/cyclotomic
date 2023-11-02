@@ -1,4 +1,4 @@
-#' @importFrom primes gcd scm coprime
+#' @importFrom numbers GCD LCM coprime
 NULL
 
 ## | the zero cyclotomic number ####
@@ -24,7 +24,7 @@ sumCyc <- function(cyc1, cyc2) {
   trms1 <- cyc1@terms
   o2    <- cyc2@order
   trms2 <- cyc2@terms
-  ord <- scm(o1, o2)
+  ord <- as.integer(LCM(o1, o2))
   m1  <- as.integer(ord %/% o1)
   m2  <- as.integer(ord %/% o2)
   mp1 <- mapKeys(
@@ -44,7 +44,7 @@ prodCyc <- function(cyc1, cyc2) {
   trms1 <- cyc1@terms
   o2    <- cyc2@order
   trms2 <- cyc2@terms
-  ord <- scm(o1, o2)
+  ord <- as.integer(LCM(o1, o2))
   m1  <- as.integer(ord %/% o1)
   m2  <- as.integer(ord %/% o2)
   keys1 <- trms1$keys()
@@ -109,7 +109,7 @@ minusCyc <- function(cyc) {
 ## helper 1 for multiplicative inverse
 multiplyExponents <- function(j, cyc) { # j is integer
   n <- cyc@order
-  if(gcd(j, n) != 1L) {
+  if(GCD(j, n) != 1L) {
     stop("multiplyExponents needs gcd == 1")
   }
   mkCyclotomic(
@@ -128,7 +128,10 @@ productOfGaloisConjugates <- function(cyc) {
   ord <- cyc@order
   if(ord <= 2L) return(NULL)
   x <- seq(2L, length.out = ord - 2L)
-  coprimes <- x[coprime(x, ord)]
+  iscoprime <- vapply(x, function(n) {
+    coprime(n, ord)
+  }, logical(1L))
+  coprimes <- x[iscoprime]
   tomultiply <- lapply(coprimes, function(j) {
     multiplyExponents(j, cyc)
   })

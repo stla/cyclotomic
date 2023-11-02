@@ -1,5 +1,5 @@
 #' @importFrom VeryLargeIntegers as.vli factors is.vli phi
-#' @importFrom primes Rgcd
+#' @importFrom numbers mGCD
 #' @importFrom maybe is_just is_nothing nothing just
 #' @importFrom gmp as.bigq numerator denominator is.bigq asNumeric
 NULL
@@ -218,12 +218,13 @@ reduceByPrime <- function(p, cyc) { # p: integer; cyc: cyclotomic; output: cyclo
   )
 }
 
-gcdList <- function(lst) {
-  do.call(Rgcd, lst)
-}
-
 gcdCyc <- function(cyc) {
-  gcdList(as.list(c(cyc@order, cyc@terms$keys())))
+  keys <- cyc@terms$keys()
+  if(length(keys) == 0L) {
+    cyc@order
+  } else {
+    as.integer(mGCD(c(cyc@order, keys)))
+  }
 }
 
 gcdReduce <- function(cyc) {
